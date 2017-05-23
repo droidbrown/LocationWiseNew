@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#CA522B</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#fff</color>
+    <color name="appcolor">#F46333</color>
+    <color name="brown">#644747</color>
+    <color name="home_screen_text">#F16233</color>
+    <color name="black">#000</color>
+    <color name="bottomsheet_bg">#E6E6E6</color>
+    <color name="appcolor_transparent">#00F46333</color>
+
+</resources>

@@ -1,0 +1,251 @@
+<android.support.design.widget.CoordinatorLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@+id/edit_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clickable="true"
+    android:background="@color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.Toolbar
+            android:elevation="4dp"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_50_dp"
+            android:background="@color/appcolor"
+            android:contentInsetEnd="@dimen/size_0_dp"
+            android:contentInsetLeft="@dimen/size_0_dp"
+            android:contentInsetRight="@dimen/size_0_dp"
+            android:contentInsetStart="@dimen/size_0_dp"
+            app:contentInsetEnd="@dimen/size_0_dp"
+            app:contentInsetLeft="@dimen/size_0_dp"
+            app:contentInsetRight="@dimen/size_0_dp"
+            app:contentInsetStart="@dimen/size_0_dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:padding="@dimen/size_5_dp"
+                    android:id="@+id/back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_gravity="start|center_horizontal"
+                    android:layout_marginLeft="@dimen/size_5_dp"
+                    android:src="@drawable/ic_action_back_arrow" />
+
+                <TextView
+                    android:gravity="center"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:id="@+id/top_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/size_10_dp"
+                    android:layout_marginLeft="@dimen/size_10_dp"
+                    android:layout_toRightOf="@+id/back"
+                    android:text="@string/editimagedetails"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_18_sp" />
+
+                <ImageView
+                    android:padding="@dimen/size_5_dp"
+                    android:id="@+id/share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="end"
+                    android:layout_marginRight="@dimen/size_10_dp"
+                    />
+            </RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+
+       <LinearLayout
+           android:id="@+id/datetime"
+           android:padding="5dp"
+           android:layout_below="@+id/toolbar"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           >
+           <LinearLayout
+               android:orientation="vertical"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:layout_weight="0.1"
+               >
+               <TextView
+                   android:id="@+id/head1"
+                   android:padding="5dp"
+                   android:textSize="@dimen/text_16_sp"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:text="@string/datetime"
+                   />
+
+               <TextView
+
+                   android:id="@+id/val1"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:padding="5dp"
+                   android:text="12:10pm/ 17-05-2017"
+                   android:textSize="@dimen/text_14_sp" />
+           </LinearLayout>
+
+           <LinearLayout
+               android:orientation="vertical"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:layout_weight="0.9"
+               >
+               <ImageView
+                   android:id="@+id/edit_datetime"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:src="@drawable/ic_action_edit"
+                   />
+           </LinearLayout>
+       </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/address"
+            android:padding="5dp"
+            android:layout_below="@+id/datetime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                >
+                <TextView
+                    android:id="@+id/head2"
+                    android:padding="5dp"
+                    android:textSize="@dimen/text_16_sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/address"
+                    />
+
+                <TextView
+                    android:id="@+id/val2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="12:10pm/ 17-05-2017"
+                    android:textSize="@dimen/text_14_sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.9"
+                >
+                <ImageView
+                    android:id="@+id/editaddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_action_edit"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/gps"
+            android:padding="5dp"
+            android:layout_below="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                >
+                <TextView
+                    android:id="@+id/head3"
+                    android:padding="5dp"
+                    android:textSize="@dimen/text_16_sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gps"
+                    />
+
+                <TextView
+                    android:id="@+id/val3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="12:10pm/ 17-05-2017"
+                    android:textSize="@dimen/text_14_sp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/latlong"
+            android:padding="5dp"
+            android:layout_below="@+id/gps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                >
+                <TextView
+                    android:id="@+id/head4"
+                    android:padding="5dp"
+                    android:textSize="@dimen/text_16_sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/latlong"
+                    />
+
+                <TextView
+                     android:id="@+id/val4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="12:10pm/ 17-05-2017"
+                    android:textSize="@dimen/text_14_sp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/save"
+            android:textSize="@dimen/size_20_dp"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/appcolor"
+            android:text="@string/save"
+            />
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

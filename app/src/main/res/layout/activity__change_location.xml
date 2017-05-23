@@ -1,0 +1,110 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/change_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_50_dp"
+            android:background="@color/appcolor"
+            android:contentInsetEnd="@dimen/size_0_dp"
+            android:contentInsetLeft="@dimen/size_0_dp"
+            android:contentInsetRight="@dimen/size_0_dp"
+            android:contentInsetStart="@dimen/size_0_dp"
+            android:elevation="4dp"
+            app:contentInsetEnd="@dimen/size_0_dp"
+            app:contentInsetLeft="@dimen/size_0_dp"
+            app:contentInsetRight="@dimen/size_0_dp"
+            app:contentInsetStart="@dimen/size_0_dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_gravity="start|center_horizontal"
+                    android:layout_marginLeft="@dimen/size_5_dp"
+                    android:padding="@dimen/size_5_dp"
+                    android:src="@drawable/ic_action_back_arrow" />
+
+                <TextView
+                    android:id="@+id/top_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/size_10_dp"
+                    android:layout_marginRight="@dimen/size_10_dp"
+                    android:layout_toRightOf="@+id/back"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@string/changelocation"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_18_sp" />
+
+                <ImageView
+                    android:id="@+id/share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="end"
+                    android:layout_marginRight="@dimen/size_10_dp"
+                    android:padding="@dimen/size_5_dp" />
+            </RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar">
+
+            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:map="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.hashbrown.erebor.locationwisenew.views.activities.Activity_ChangeLocation" />
+
+            <EditText
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="top"
+                android:layout_margin="10dp"
+                android:background="@drawable/change_location_edittext"
+                android:hint="@string/searchhere"
+                android:imeActionId="0x00000002"
+                android:imeActionLabel="Search"
+                android:imeOptions="actionNext"
+                android:maxEms="100"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/size_5_dp"
+                android:singleLine="true"
+                android:textSize="@dimen/text_14_sp" />
+        </FrameLayout>
+
+
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
+
+
+

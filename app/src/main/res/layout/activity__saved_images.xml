@@ -1,0 +1,128 @@
+<android.support.design.widget.CoordinatorLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clickable="true"
+    android:background="@color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.Toolbar
+            android:elevation="4dp"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_50_dp"
+            android:background="@color/appcolor"
+            android:contentInsetEnd="@dimen/size_0_dp"
+            android:contentInsetLeft="@dimen/size_0_dp"
+            android:contentInsetRight="@dimen/size_0_dp"
+            android:contentInsetStart="@dimen/size_0_dp"
+            app:contentInsetEnd="@dimen/size_0_dp"
+            app:contentInsetLeft="@dimen/size_0_dp"
+            app:contentInsetRight="@dimen/size_0_dp"
+            app:contentInsetStart="@dimen/size_0_dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:padding="@dimen/size_5_dp"
+                    android:id="@+id/back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_gravity="start|center_horizontal"
+                    android:layout_marginLeft="@dimen/size_5_dp"
+                    android:src="@drawable/ic_action_back_arrow" />
+
+                <TextView
+                    android:gravity="center"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:id="@+id/top_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/size_10_dp"
+                    android:layout_marginLeft="@dimen/size_10_dp"
+                    android:layout_toRightOf="@+id/back"
+                    android:text="@string/savedimages"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_18_sp" />
+
+                <ImageView
+                    android:padding="@dimen/size_5_dp"
+                    android:id="@+id/share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="end"
+                    android:layout_marginRight="@dimen/size_10_dp"
+                    />
+            </RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/saved_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
+            >
+
+        </android.support.v7.widget.RecyclerView>
+
+
+        <TextView
+            android:visibility="invisible"
+            android:id="@+id/noimage"
+            android:textSize="@dimen/text_20_sp"
+            android:gravity="center"
+            android:layout_below="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="No Saved Images Found"
+            android:textColor="@color/appcolor"
+            android:background="@color/white"
+            />
+
+    </RelativeLayout>
+
+
+    <include
+        android:visibility="invisible"
+        layout="@layout/activity_saved_images_bottomsheet"></include>
+    <FrameLayout
+        android:background="#80000000"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:visibility="invisible"
+        android:layout_height="match_parent"
+        >
+        <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
+            android:id="@+id/progressBarLong"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:mlpb_background_color="@color/colorPrimary"
+            app:mlpb_progress_color="@android:color/white" />
+
+        <ImageView
+            android:scaleType="centerCrop"
+            android:id="@+id/expanded_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:visibility="invisible" />
+
+
+    </FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

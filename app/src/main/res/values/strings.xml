@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">LocationWise</string>
+    <string name="title_activity_home_screen">HomeScreen</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="book">fonts/futura-pt-book.ttf</string>
+    <string name="light">fonts/futura-pt-light.ttf</string>
+    <string name="action_settings">Settings</string>
+    <string name="locationwise">Location Wise</string>
+    <string name="takephoto">TAKE PHOTO</string>
+    <string name="browse">BROWSE</string>
+    <string name="savedimages">Saved Images</string>
+    <string name="title_activity__change_location">Map</string>
+    <string name="editimagedetails">Edit Image Details</string>
+    <string name="datetime">Date/Time</string>
+    <string name="address">Address</string>
+    <string name="gps">GPS Co-ordinates</string>
+    <string name="latlong">Latitude and Longitude</string>
+    <string name="save">Save</string>
+    <string name="changelocation">Change Location</string>
+    <string name="searchhere">Search Here...</string>
+    <string name="taptoviewimage">Tap to View Image</string>
+    <string name="share">Share</string>
+    <string name="delete">Delete</string>
+    <string name="close">Close</string>
+    <string name="select_time">Select Time</string>
+    <string name="cancel">Cancel</string>
+</resources>
