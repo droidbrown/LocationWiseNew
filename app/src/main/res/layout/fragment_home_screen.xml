@@ -26,6 +26,7 @@
             android:layout_height="match_parent"
             ></LinearLayout>
         <RelativeLayout
+            android:elevation="3dp"
             android:id="@+id/takephoto"
             android:orientation="vertical"
             android:background="@color/brown"
@@ -66,6 +67,7 @@
         >
 
         <LinearLayout
+            android:elevation="3dp"
             android:id="@+id/browse"
             android:background="@color/brown"
             android:layout_width="match_parent"
