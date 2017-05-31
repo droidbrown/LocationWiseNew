@@ -246,11 +246,11 @@ public class Activity_EditDetails extends AppCompatActivity implements DateTimeP
                     country="";
 
                 if (addresses.get(0).getPostalCode() != null && !addresses.get(0).getPostalCode().equals("null"))
-                    postalCode=addresses.get(0).getPostalCode();
+                    postalCode="Postal Code: "+addresses.get(0).getPostalCode();
                 else
                     postalCode="";
                 String coordinates=convert(latitude,longitude);
-                Prefs.putString("address",address + ", " + city + ", " + state + ", " + country + ", Postal Code :" + postalCode);
+                Prefs.putString("address",address + ", " + city + ", " + state + ", " + country  + postalCode);
                 address_value.setText(Prefs.getString("address",""));
                 gps_value.setText(coordinates);
             }

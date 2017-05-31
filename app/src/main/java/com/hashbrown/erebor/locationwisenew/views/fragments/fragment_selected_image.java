@@ -156,7 +156,7 @@ public class fragment_selected_image extends Fragment {
                     country="";
 
                 if (addresses.get(0).getPostalCode() != null && !addresses.get(0).getPostalCode().equals("null"))
-                    postalCode=addresses.get(0).getPostalCode();
+                    postalCode="Postal Code: "+addresses.get(0).getPostalCode();
                 else
                     postalCode="";
 
@@ -165,7 +165,7 @@ public class fragment_selected_image extends Fragment {
 
 
             coordinates = convert(latitude, longitude);
-            Prefs.putString("address", address + ", " + city + ", " + state + ", " + country + ", Postal Code :" + postalCode);
+            Prefs.putString("address", address + ", " + city + ", " + state + ", " + country  + postalCode);
             text.setText(Prefs.getString("time", "09:00 am") + " | " + Prefs.getString("date", "01- Jan-2001") + " |\n" + latitude + " " + longitude + " | " + coordinates + " |\n" + Prefs.getString("address", ""));
 
         }
@@ -432,11 +432,11 @@ public class fragment_selected_image extends Fragment {
                     country="";
 
                 if (addresses.get(0).getPostalCode() != null && !addresses.get(0).getPostalCode().equals("null"))
-                    postalCode=addresses.get(0).getPostalCode();
+                    postalCode="Postal Code: "+addresses.get(0).getPostalCode();
                 else
                     postalCode="";
                 coordinates = convert(latitude, longitude);
-                Prefs.putString("address", address + ", " + city + ", " + state + ", " + country + ", Postal Code :" + postalCode);
+                Prefs.putString("address", address + ", " + city + ", " + state + ", " + country  + postalCode);
                 text.setText(Prefs.getString("time", "") + " | " + Prefs.getString("date", "") + " |\n" + latitude + " " + longitude + " | " + coordinates + " |\n" + Prefs.getString("address", ""));
             }
             EventBus.getDefault().removeStickyEvent(messageEvent);
@@ -467,11 +467,11 @@ public class fragment_selected_image extends Fragment {
                         country="";
 
                     if (addresses.get(0).getPostalCode() != null && !addresses.get(0).getPostalCode().equals("null"))
-                        postalCode=addresses.get(0).getPostalCode();
+                        postalCode="Postal Code: "+addresses.get(0).getPostalCode();
                     else
                         postalCode="";
                     coordinates = convert(latitude, longitude);
-                    Prefs.putString("address", address + ", " + city + ", " + state + ", " + country + ", Postal Code :" + postalCode);
+                    Prefs.putString("address", address + ", " + city + ", " + state + ", " + country  + postalCode);
                     text.setText(Prefs.getString("time", "") + " | " + Prefs.getString("date", "") + " |\n" + latitude + " " + longitude + " | " + coordinates + " |\n" + Prefs.getString("address", ""));
                 }
             EventBus.getDefault().removeStickyEvent(messageEvent);
@@ -503,7 +503,7 @@ public class fragment_selected_image extends Fragment {
                     Toast.makeText(getActivity(), "File Saved in folder ", Toast.LENGTH_SHORT).show();
                     if(addresses!=null) {
 
-                         final_adress = address + ", " + city + ", " + state + ", " + country + ", Postal Code :" + postalCode;
+                         final_adress = address + ", " + city + ", " + state + ", " + country  + postalCode;
                     }
                     pic_details pic_details = new pic_details(longitude, latitude, final_adress, date, time, filename, coordinates, coordinates);
                   //  Toast.makeText(getActivity(), ""+final_adress, Toast.LENGTH_SHORT).show();
