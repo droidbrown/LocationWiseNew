@@ -19,13 +19,13 @@
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme">
         <activity
-            android:screenOrientation="portrait"
             android:name=".views.activities.Activity_HomeScreen"
             android:label="@string/title_activity_home_screen"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:screenOrientation="portrait"
-            android:name=".views.activities.Activity_SplashScreen">
+            android:name=".views.activities.Activity_SplashScreen"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,11 +33,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:screenOrientation="portrait"
-            android:name=".views.activities.Activity_EditDetails" />
+            android:name=".views.activities.Activity_EditDetails"
+            android:screenOrientation="portrait" />
         <activity
-            android:screenOrientation="portrait"
-            android:name=".views.activities.Activity_SavedImages" />
+            android:name=".views.activities.Activity_SavedImages"
+            android:screenOrientation="portrait" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -51,9 +51,9 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:screenOrientation="portrait"
             android:name=".views.activities.Activity_ChangeLocation"
-            android:label="@string/title_activity__change_location"></activity>
+            android:label="@string/title_activity__change_location"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

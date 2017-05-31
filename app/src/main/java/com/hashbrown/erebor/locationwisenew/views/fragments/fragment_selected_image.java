@@ -136,22 +136,22 @@ public class fragment_selected_image extends Fragment {
         if (addresses.size() > 0)
         {
             if (addresses.get(0).getAddressLine(0) != null && !addresses.get(0).getAddressLine(0).equals("null"))
-                        address=addresses.get(0).getAddressLine(0);
+                        address=addresses.get(0).getAddressLine(0)+",";
                     else
                     address="";
 
                     if (addresses.get(0).getLocality() != null && !addresses.get(0).getLocality().equals("null"))
-                        city=addresses.get(0).getLocality();
+                        city=addresses.get(0).getLocality()+",";
                    else
                     city="";
 
                 if (addresses.get(0).getAdminArea() != null && !addresses.get(0).getAdminArea().equals("null"))
-                    state=addresses.get(0).getAdminArea();
+                    state=addresses.get(0).getAdminArea()+",";
                 else
                     state="";
 
                 if (addresses.get(0).getCountryName() != null && !addresses.get(0).getCountryName().equals("null"))
-                    country=addresses.get(0).getCountryName();
+                    country=addresses.get(0).getCountryName()+",";
                 else
                     country="";
 
@@ -165,7 +165,7 @@ public class fragment_selected_image extends Fragment {
 
 
             coordinates = convert(latitude, longitude);
-            Prefs.putString("address", address + ", " + city + ", " + state + ", " + country  + postalCode);
+            Prefs.putString("address", address  + city  + state + country  + postalCode);
             text.setText(Prefs.getString("time", "09:00 am") + " | " + Prefs.getString("date", "01- Jan-2001") + " |\n" + latitude + " " + longitude + " | " + coordinates + " |\n" + Prefs.getString("address", ""));
 
         }
@@ -412,22 +412,22 @@ public class fragment_selected_image extends Fragment {
             if(addresses!=null)
             if (addresses.size() > 0) {
                 if (addresses.get(0).getAddressLine(0) != null && !addresses.get(0).getAddressLine(0).equals("null"))
-                    address=addresses.get(0).getAddressLine(0);
+                    address=addresses.get(0).getAddressLine(0)+",";
                 else
                     address="";
 
                 if (addresses.get(0).getLocality() != null && !addresses.get(0).getLocality().equals("null"))
-                    city=addresses.get(0).getLocality();
+                    city=addresses.get(0).getLocality()+",";
                 else
                     city="";
 
                 if (addresses.get(0).getAdminArea() != null && !addresses.get(0).getAdminArea().equals("null"))
-                    state=addresses.get(0).getAdminArea();
+                    state=addresses.get(0).getAdminArea()+",";
                 else
                     state="";
 
                 if (addresses.get(0).getCountryName() != null && !addresses.get(0).getCountryName().equals("null"))
-                    country=addresses.get(0).getCountryName();
+                    country=addresses.get(0).getCountryName()+",";
                 else
                     country="";
 
@@ -435,8 +435,13 @@ public class fragment_selected_image extends Fragment {
                     postalCode="Postal Code: "+addresses.get(0).getPostalCode();
                 else
                     postalCode="";
+
+
+
+
+
                 coordinates = convert(latitude, longitude);
-                Prefs.putString("address", address + ", " + city + ", " + state + ", " + country  + postalCode);
+                Prefs.putString("address", address  + city  + state + country  + postalCode);
                 text.setText(Prefs.getString("time", "") + " | " + Prefs.getString("date", "") + " |\n" + latitude + " " + longitude + " | " + coordinates + " |\n" + Prefs.getString("address", ""));
             }
             EventBus.getDefault().removeStickyEvent(messageEvent);
@@ -447,22 +452,22 @@ public class fragment_selected_image extends Fragment {
             if(addresses!=null)
                 if (addresses.size() > 0) {
                     if (addresses.get(0).getAddressLine(0) != null && !addresses.get(0).getAddressLine(0).equals("null"))
-                        address=addresses.get(0).getAddressLine(0);
+                        address=addresses.get(0).getAddressLine(0)+",";
                     else
                         address="";
 
                     if (addresses.get(0).getLocality() != null && !addresses.get(0).getLocality().equals("null"))
-                        city=addresses.get(0).getLocality();
+                        city=addresses.get(0).getLocality()+",";
                     else
                         city="";
 
                     if (addresses.get(0).getAdminArea() != null && !addresses.get(0).getAdminArea().equals("null"))
-                        state=addresses.get(0).getAdminArea();
+                        state=addresses.get(0).getAdminArea()+",";
                     else
                         state="";
 
                     if (addresses.get(0).getCountryName() != null && !addresses.get(0).getCountryName().equals("null"))
-                        country=addresses.get(0).getCountryName();
+                        country=addresses.get(0).getCountryName()+",";
                     else
                         country="";
 
@@ -470,8 +475,13 @@ public class fragment_selected_image extends Fragment {
                         postalCode="Postal Code: "+addresses.get(0).getPostalCode();
                     else
                         postalCode="";
+
+
+
+
+
                     coordinates = convert(latitude, longitude);
-                    Prefs.putString("address", address + ", " + city + ", " + state + ", " + country  + postalCode);
+                    Prefs.putString("address", address  + city  + state + country  + postalCode);
                     text.setText(Prefs.getString("time", "") + " | " + Prefs.getString("date", "") + " |\n" + latitude + " " + longitude + " | " + coordinates + " |\n" + Prefs.getString("address", ""));
                 }
             EventBus.getDefault().removeStickyEvent(messageEvent);

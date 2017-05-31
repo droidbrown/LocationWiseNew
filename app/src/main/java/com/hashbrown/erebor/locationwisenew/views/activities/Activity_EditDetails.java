@@ -70,6 +70,14 @@ public class Activity_EditDetails extends AppCompatActivity implements DateTimeP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__edit_details);
         ButterKnife.bind(this);
+        latitude= Prefs.getDouble("lat",0);
+        longitude=Prefs.getDouble("long",0);
+        latlong_value.setText(latitude+" "+longitude);
+        gps_value.setText(convert(latitude,longitude));
+        date=Prefs.getString("date","");
+        time=Prefs.getString("time","");
+        datetime_value.setText(time+"| "+date);
+        address_value.setText(Prefs.getString("address",""));
         TypefaceHelper.getInstance().setTypeface(top_text,getString(R.string.book));
         TypefaceHelper.getInstance().setTypeface(datetime_heading,getString(R.string.book));
         TypefaceHelper.getInstance().setTypeface(address_heading,getString(R.string.book));
@@ -80,14 +88,7 @@ public class Activity_EditDetails extends AppCompatActivity implements DateTimeP
         TypefaceHelper.getInstance().setTypeface(gps_value,getString(R.string.light));
         TypefaceHelper.getInstance().setTypeface(latlong_value,getString(R.string.light));
         TypefaceHelper.getInstance().setTypeface(save,getString(R.string.book));
-        latitude= Prefs.getDouble("lat",0);
-        longitude=Prefs.getDouble("long",0);
-        latlong_value.setText(latitude+" "+longitude);
-        gps_value.setText(convert(latitude,longitude));
-        date=Prefs.getString("date","");
-        time=Prefs.getString("time","");
-        datetime_value.setText(time+"| "+date);
-        address_value.setText(Prefs.getString("address",""));
+
 
     }
 
@@ -224,24 +225,23 @@ public class Activity_EditDetails extends AppCompatActivity implements DateTimeP
 
             addresses=getLocationData();
             if(addresses.size()>0)
-            {
-                if (addresses.get(0).getAddressLine(0) != null && !addresses.get(0).getAddressLine(0).equals("null"))
-                    address=addresses.get(0).getAddressLine(0);
-                else
-                    address="";
+            {   if (addresses.get(0).getAddressLine(0) != null && !addresses.get(0).getAddressLine(0).equals("null"))
+                address=addresses.get(0).getAddressLine(0)+",";
+            else
+                address="";
 
                 if (addresses.get(0).getLocality() != null && !addresses.get(0).getLocality().equals("null"))
-                    city=addresses.get(0).getLocality();
+                    city=addresses.get(0).getLocality()+",";
                 else
                     city="";
 
                 if (addresses.get(0).getAdminArea() != null && !addresses.get(0).getAdminArea().equals("null"))
-                    state=addresses.get(0).getAdminArea();
+                    state=addresses.get(0).getAdminArea()+",";
                 else
                     state="";
 
                 if (addresses.get(0).getCountryName() != null && !addresses.get(0).getCountryName().equals("null"))
-                    country=addresses.get(0).getCountryName();
+                    country=addresses.get(0).getCountryName()+",";
                 else
                     country="";
 
@@ -249,8 +249,13 @@ public class Activity_EditDetails extends AppCompatActivity implements DateTimeP
                     postalCode="Postal Code: "+addresses.get(0).getPostalCode();
                 else
                     postalCode="";
-                String coordinates=convert(latitude,longitude);
-                Prefs.putString("address",address + ", " + city + ", " + state + ", " + country  + postalCode);
+
+
+
+
+
+                String coordinates = convert(latitude, longitude);
+                Prefs.putString("address", address  + city  + state + country  + postalCode);
                 address_value.setText(Prefs.getString("address",""));
                 gps_value.setText(coordinates);
             }
