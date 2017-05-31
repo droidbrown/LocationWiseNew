@@ -513,7 +513,7 @@ public class fragment_selected_image extends Fragment {
                     Toast.makeText(getActivity(), "File Saved in folder ", Toast.LENGTH_SHORT).show();
                     if(addresses!=null) {
 
-                         final_adress = address + ", " + city + ", " + state + ", " + country  + postalCode;
+                         final_adress = address  + city + state  + country  + postalCode;
                     }
                     pic_details pic_details = new pic_details(longitude, latitude, final_adress, date, time, filename, coordinates, coordinates);
                   //  Toast.makeText(getActivity(), ""+final_adress, Toast.LENGTH_SHORT).show();
