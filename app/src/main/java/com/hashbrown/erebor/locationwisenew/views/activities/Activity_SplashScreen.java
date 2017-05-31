@@ -17,6 +17,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.hashbrown.erebor.locationwisenew.R;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +35,8 @@ public class Activity_SplashScreen extends Activity {
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
 
         checkGPS();
+
+        Prefs.putString("comingFrom","splash");
 
 
     }

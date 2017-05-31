@@ -122,7 +122,7 @@ public class DateTimePicker extends DialogFragment {
         mTimePicker = (TimePicker) mView.findViewById(R.id.time_picker);
         mDatePicker.init(mDateTime.getYear(), mDateTime.getMonthOfYear(),
                 mDateTime.getDayOfMonth(), null);
-        mDatePicker.setMinDate(dateFrom.getTime());
+      //  mDatePicker.setMinDate(dateFrom.getTime());
 
 
         if (Build.VERSION.SDK_INT >= 23) {
@@ -167,12 +167,12 @@ public class DateTimePicker extends DialogFragment {
                             mTimePicker.getHour(),
                             mTimePicker.getMinute()
                     );
-
-                    if (mTimePicker.getHour() >= dateFrom.getHours() && mTimePicker.getMinute() >= dateFrom.getMinutes()) {
+                    mOnDateTimeSetListener.DateTimeSet(mDateTime.getDate());
+                   /* if (mTimePicker.getHour() >= dateFrom.getHours() && mTimePicker.getMinute() >= dateFrom.getMinutes()) {
                         mOnDateTimeSetListener.DateTimeSet(mDateTime.getDate());
                     } else {
                         ViewUtils.ShowToast(mContext, "You Cannot Choose Past Time.");
-                    }
+                    }*/
                 } else {
 
                     DateTime mDateTime = new DateTime(
@@ -183,13 +183,13 @@ public class DateTimePicker extends DialogFragment {
                             mTimePicker.getCurrentMinute()
                     );
 
+                    mOnDateTimeSetListener.DateTimeSet(mDateTime.getDate());
 
-
-                    if (mTimePicker.getCurrentHour() >= dateFrom.getHours() && mTimePicker.getCurrentMinute() >= dateFrom.getMinutes()) {
+                   /* if (mTimePicker.getCurrentHour() >= dateFrom.getHours() && mTimePicker.getCurrentMinute() >= dateFrom.getMinutes()) {
                         mOnDateTimeSetListener.DateTimeSet(mDateTime.getDate());
                     } else {
                         ViewUtils.ShowToast(mContext, "You Cannot Choose Past Time.");
-                    }
+                    }*/
 
                 }
 

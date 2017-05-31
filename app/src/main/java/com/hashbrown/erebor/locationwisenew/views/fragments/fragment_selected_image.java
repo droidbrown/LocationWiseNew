@@ -132,6 +132,7 @@ public class fragment_selected_image extends Fragment {
         latitude = Prefs.getDouble("lat", 0);
         longitude = Prefs.getDouble("long", 0);
         addresses = getLocationData();
+
         if(addresses!=null)
         if (addresses.size() > 0)
         {
@@ -165,7 +166,11 @@ public class fragment_selected_image extends Fragment {
 
 
             coordinates = convert(latitude, longitude);
+
             Prefs.putString("address", address  + city  + state + country  + postalCode);
+
+
+
             text.setText(Prefs.getString("time", "09:00 am") + " | " + Prefs.getString("date", "01- Jan-2001") + " |\n" + latitude + " " + longitude + " | " + coordinates + " |\n" + Prefs.getString("address", ""));
 
         }
@@ -405,7 +410,8 @@ public class fragment_selected_image extends Fragment {
 
     public void onEventMainThread(MessageEvent messageEvent) {
 
-        if (messageEvent.message.contains("datetime")) {
+        if (messageEvent.message.contains("datetime"))
+        {
             latitude = Prefs.getDouble("lat", 0);
             longitude = Prefs.getDouble("long", 0);
             addresses = getLocationData();
@@ -444,46 +450,6 @@ public class fragment_selected_image extends Fragment {
                 Prefs.putString("address", address  + city  + state + country  + postalCode);
                 text.setText(Prefs.getString("time", "") + " | " + Prefs.getString("date", "") + " |\n" + latitude + " " + longitude + " | " + coordinates + " |\n" + Prefs.getString("address", ""));
             }
-            EventBus.getDefault().removeStickyEvent(messageEvent);
-        } else if (messageEvent.message.contains("latlong")) {
-            latitude = Prefs.getDouble("lat", 0);
-            longitude = Prefs.getDouble("long", 0);
-            addresses = getLocationData();
-            if(addresses!=null)
-                if (addresses.size() > 0) {
-                    if (addresses.get(0).getAddressLine(0) != null && !addresses.get(0).getAddressLine(0).equals("null"))
-                        address=addresses.get(0).getAddressLine(0)+",";
-                    else
-                        address="";
-
-                    if (addresses.get(0).getLocality() != null && !addresses.get(0).getLocality().equals("null"))
-                        city=addresses.get(0).getLocality()+",";
-                    else
-                        city="";
-
-                    if (addresses.get(0).getAdminArea() != null && !addresses.get(0).getAdminArea().equals("null"))
-                        state=addresses.get(0).getAdminArea()+",";
-                    else
-                        state="";
-
-                    if (addresses.get(0).getCountryName() != null && !addresses.get(0).getCountryName().equals("null"))
-                        country=addresses.get(0).getCountryName()+",";
-                    else
-                        country="";
-
-                    if (addresses.get(0).getPostalCode() != null && !addresses.get(0).getPostalCode().equals("null"))
-                        postalCode="Postal Code: "+addresses.get(0).getPostalCode();
-                    else
-                        postalCode="";
-
-
-
-
-
-                    coordinates = convert(latitude, longitude);
-                    Prefs.putString("address", address  + city  + state + country  + postalCode);
-                    text.setText(Prefs.getString("time", "") + " | " + Prefs.getString("date", "") + " |\n" + latitude + " " + longitude + " | " + coordinates + " |\n" + Prefs.getString("address", ""));
-                }
             EventBus.getDefault().removeStickyEvent(messageEvent);
         }
     }
@@ -553,5 +519,7 @@ public class fragment_selected_image extends Fragment {
 
         }
     }
+
+
 }
 

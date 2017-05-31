@@ -234,11 +234,16 @@ public class Activity_HomeScreen extends AppCompatActivity
             //If everything went fine lets get latitude and longitude
             currentLatitude = location.getLatitude();
             currentLongitude = location.getLongitude();
-            Prefs.clear();
+
 
             addresses = getLocationData();
-            Prefs.putDouble("lat",currentLatitude);
-            Prefs.putDouble("long",currentLongitude);
+
+            if(Prefs.getString("comingFrom","").equalsIgnoreCase("splash")) {
+                Prefs.putDouble("lat", currentLatitude);
+                Prefs.putDouble("long", currentLongitude);
+
+                Prefs.putString("comingFrom","");
+            }
 
 
 
@@ -271,9 +276,7 @@ public class Activity_HomeScreen extends AppCompatActivity
     @Override
     public void onLocationChanged(Location location)
     {
-        currentLatitude = location.getLatitude();
-        currentLongitude = location.getLongitude();
-        addresses = getLocationData();
+
 
 
     }

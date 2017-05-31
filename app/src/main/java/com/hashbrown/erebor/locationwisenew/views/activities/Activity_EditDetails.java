@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.drivemode.android.typeface.TypefaceHelper;
 import com.hashbrown.erebor.locationwisenew.R;
@@ -65,6 +66,8 @@ public class Activity_EditDetails extends AppCompatActivity implements DateTimeP
     @BindView(R.id.edit_parent)
     CoordinatorLayout edit_parent;
 
+
+    String address,city,state,country,postalCode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,7 +107,19 @@ public class Activity_EditDetails extends AppCompatActivity implements DateTimeP
     @OnClick(R.id.save)
     void onsave()
     {
+/*save date and time*/
+        Prefs.putString("date",date);
+        Prefs.putString("time",time);
+        /*save address*/
+        Prefs.putString("address", address  + city  + state + country  + postalCode);
+
+        /*save lat long value*/
+
+        Prefs.putDouble("lat", latitude );
+        Prefs.putDouble("long",longitude);
+
         EventBus.getDefault().postSticky(new MessageEvent("datetime"));
+
         finish();
 
 
@@ -190,8 +205,7 @@ public class Activity_EditDetails extends AppCompatActivity implements DateTimeP
         date =df.format(updated_date);
         time=df1.format(updated_date);
         datetime_value.setText(time+"| "+date);
-        Prefs.putString("date",date);
-        Prefs.putString("time",time);
+
 
 
     }
@@ -217,11 +231,12 @@ public class Activity_EditDetails extends AppCompatActivity implements DateTimeP
     List<Address> addresses;
     public void onEventMainThread(MessageEvent messageEvent) {
 
+
         if (messageEvent.message.contains("latlong_edit"))
         {
-            String address,city,state,country,postalCode;
-            latitude= Prefs.getDouble("lat",0);
-            longitude=Prefs.getDouble("long",0);
+
+            latitude= Prefs.getDouble("latMap",0);
+            longitude=Prefs.getDouble("longMap",0);
 
             addresses=getLocationData();
             if(addresses.size()>0)
@@ -255,8 +270,9 @@ public class Activity_EditDetails extends AppCompatActivity implements DateTimeP
 
 
                 String coordinates = convert(latitude, longitude);
-                Prefs.putString("address", address  + city  + state + country  + postalCode);
-                address_value.setText(Prefs.getString("address",""));
+
+                address_value.setText(address  + city  + state + country  + postalCode);
+
                 gps_value.setText(coordinates);
             }
 

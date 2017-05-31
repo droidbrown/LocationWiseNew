@@ -109,7 +109,7 @@ void onback()
         distanceRadius = distanceRadius * 1000;
         CameraPosition cameraPosition1 = new CameraPosition.Builder()
                 .target(current)
-                .zoom(8)
+                .zoom(13)
                 .build();
 
         map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition1));
@@ -123,13 +123,13 @@ void onback()
             @Override
             public void onMapClick(LatLng latLng) {
 
-                Prefs.putDouble("lat", latLng.latitude );
-                Prefs.putDouble("long", latLng.longitude);
+                Prefs.putDouble("latMap", latLng.latitude );
+                Prefs.putDouble("longMap", latLng.longitude);
                map.clear();
 
                 CameraPosition cameraPosition1 = new CameraPosition.Builder()
                         .target(latLng)
-                        .zoom(8)
+                        .zoom(13)
                         .build();
 
                 map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition1));
@@ -175,13 +175,13 @@ void onback()
 
             if (newSearchLatlong != null) {
 
-                Prefs.putDouble("lat", newSearchLatlong.latitude);
-                Prefs.putDouble("long",newSearchLatlong.longitude );
+                Prefs.putDouble("latMap", newSearchLatlong.latitude);
+                Prefs.putDouble("longMap",newSearchLatlong.longitude );
 
                 map.clear();
                 CameraPosition cameraPosition1 = new CameraPosition.Builder()
                         .target(newSearchLatlong)
-                        .zoom(8)
+                        .zoom(13)
                         .build();
                 int distanceRadius=10000;
                 distanceRadius = distanceRadius * 1000;
