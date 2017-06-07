@@ -4,13 +4,13 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/home"
-            android:icon="@drawable/ic_home"
-            android:title="Home" />
+            android:icon="@drawable/ic_action_multiple_shots"
+            android:title="Multiple Shots" />
 
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Past History" />
+            android:icon="@drawable/ic_movie"
+            android:title="Shoot Video" />
 
     </group>
 

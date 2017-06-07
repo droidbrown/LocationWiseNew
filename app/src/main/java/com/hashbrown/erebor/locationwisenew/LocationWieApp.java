@@ -1,7 +1,9 @@
 package com.hashbrown.erebor.locationwisenew;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.ContextWrapper;
+import android.support.multidex.MultiDex;
 
 import com.drivemode.android.typeface.TypefaceHelper;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -25,5 +27,10 @@ public class LocationWieApp extends Application
 
         //typeface initialization
         TypefaceHelper.initialize(this);
+    }
+    @Override
+    public void attachBaseContext(Context context) {
+        super.attachBaseContext(context);
+        MultiDex.install(this);
     }
 }

@@ -51,6 +51,9 @@ public class Activity_ChangeLocation extends FragmentActivity implements OnMapRe
     TextView textview;
     @BindView(R.id.search)
     EditText search;
+    LatLng current;
+    int distanceRadius=10000;
+    MarkerOptions marker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,9 +95,10 @@ void onback()
 
     }
 
-    LatLng current;
-    int distanceRadius=10000;
-    MarkerOptions marker;
+
+
+
+    //on map ready
     @Override
     public void onMapReady(GoogleMap googleMap) 
     {
@@ -149,15 +153,9 @@ void onback()
             }
 
         });
-
-
-
-
-
-
     }
 
-
+    //if user search map by typing then this method is called
     void onSearchClick()
     {
         //   AppUtils.hidekeyBoard(this,et_location);
@@ -193,7 +191,7 @@ void onback()
 // .fillColor(0x550000FF));
 
 
-                 marker=new MarkerOptions().position(newSearchLatlong).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location_icon));
+                marker=new MarkerOptions().position(newSearchLatlong).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location_icon));
                 map.addMarker(marker);
                 map.moveCamera(CameraUpdateFactory.newLatLng(newSearchLatlong));
 
@@ -204,13 +202,11 @@ void onback()
                 search.setText("");
 
 
-            }
-
-        }
+            }}}
 
 
-    }
 
+    //if user search map by typing then this method is called
     public LatLng getLocationFromAddress(Context context, String strAddress)
     {
 

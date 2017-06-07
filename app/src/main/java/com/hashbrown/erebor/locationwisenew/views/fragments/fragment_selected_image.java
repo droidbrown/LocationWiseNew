@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.hashbrown.erebor.locationwisenew.R;
 import com.hashbrown.erebor.locationwisenew.database.db_locationwise;
 import com.hashbrown.erebor.locationwisenew.database.pic_details;
+import com.hashbrown.erebor.locationwisenew.utils.AppUtils;
 import com.hashbrown.erebor.locationwisenew.utils.MessageEvent;
 import com.hashbrown.erebor.locationwisenew.utils.constants;
 import com.hashbrown.erebor.locationwisenew.views.activities.Activity_EditDetails;
@@ -57,6 +58,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
+import static com.hashbrown.erebor.locationwisenew.utils.AppUtils.getLocationData;
 import static java.util.Calendar.getInstance;
 
 
@@ -75,6 +77,8 @@ public class fragment_selected_image extends Fragment {
     ImageView save;
     @BindView(R.id.image)
     ImageView image;
+    @BindView(R.id.watermark_image)
+    ImageView watermark;
     @BindView(R.id.text)
     TextView text;
     @BindView(R.id.frame)
@@ -120,6 +124,8 @@ public class fragment_selected_image extends Fragment {
         paths = this.getArguments().getStringArrayList("paths");
         pd=new ProgressDialog(getActivity());
         pd.setMessage("Saving Image...");
+
+
         //datetime
         DateFormat df = new SimpleDateFormat("HH:mm:ss a");
         DateFormat df1 = new SimpleDateFormat("d MMM yyyy");
@@ -128,65 +134,28 @@ public class fragment_selected_image extends Fragment {
         Prefs.putString("date", date);
         Prefs.putString("time", time);
 
-        loadImage(image, paths.get(0));
+        //load image
+        AppUtils.loadImage(image, paths.get(0),getActivity());
+
+        //latitude longitude and display address
         latitude = Prefs.getDouble("lat", 0);
         longitude = Prefs.getDouble("long", 0);
-        addresses = getLocationData();
+        addresses = AppUtils.getLocationData(getActivity(),latitude,longitude);
+        setAddress();
 
-        if(addresses!=null)
-        if (addresses.size() > 0)
-        {
-            if (addresses.get(0).getAddressLine(0) != null && !addresses.get(0).getAddressLine(0).equals("null"))
-                        address=addresses.get(0).getAddressLine(0)+",";
-                    else
-                    address="";
-
-                    if (addresses.get(0).getLocality() != null && !addresses.get(0).getLocality().equals("null"))
-                        city=addresses.get(0).getLocality()+",";
-                   else
-                    city="";
-
-                if (addresses.get(0).getAdminArea() != null && !addresses.get(0).getAdminArea().equals("null"))
-                    state=addresses.get(0).getAdminArea()+",";
-                else
-                    state="";
-
-                if (addresses.get(0).getCountryName() != null && !addresses.get(0).getCountryName().equals("null"))
-                    country=addresses.get(0).getCountryName()+",";
-                else
-                    country="";
-
-                if (addresses.get(0).getPostalCode() != null && !addresses.get(0).getPostalCode().equals("null"))
-                    postalCode="Postal Code: "+addresses.get(0).getPostalCode();
-                else
-                    postalCode="";
-
-
-
-
-
-            coordinates = convert(latitude, longitude);
-
-            Prefs.putString("address", address  + city  + state + country  + postalCode);
-
-
-
-            text.setText(Prefs.getString("time", "09:00 am") + " | " + Prefs.getString("date", "01- Jan-2001") + " |\n" + latitude + " " + longitude + " | " + coordinates + " |\n" + Prefs.getString("address", ""));
-
-        }
-
+        //background color of the textview
         aSwitch.setChecked(true);
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    text.setBackgroundColor(getColor(getActivity(),R.color.appcolor));
+                    text.setBackgroundColor(AppUtils.getColor(getActivity(),R.color.appcolor));
 
                 }
                 else
                 {
-                    text.setBackgroundColor(getColor(getActivity(),R.color.appcolor_transparent));
+                    text.setBackgroundColor(AppUtils.getColor(getActivity(),R.color.appcolor_transparent));
 
                 }
             }
@@ -196,31 +165,8 @@ public class fragment_selected_image extends Fragment {
 
         return v;
     }
-    public static final int getColor(Context context, int id) {
-        final int version = Build.VERSION.SDK_INT;
-        if (version >= 23) {
-            return ContextCompat.getColor(context, id);
-        } else {
-            return context.getResources().getColor(id);
-        }
-    }
-    private void loadImage(ImageView iv, final String path) {
-        Picasso.with(getActivity())
-                .load(Uri.fromFile(new File(path)))
-                .fit()
-                .centerInside()
-                .into(iv, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        Log.i(TAG, "Picasso Success Loading Thumbnail - " + path);
-                    }
 
-                    @Override
-                    public void onError() {
-                        Log.i(TAG, "Picasso Error Loading Thumbnail Small - " + path);
-                    }
-                });
-    }
+
 
     @OnClick(R.id.save)
     void onSave() {
@@ -254,20 +200,7 @@ public class fragment_selected_image extends Fragment {
         getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
     }
 
-    public List<Address> getLocationData() {
-        Geocoder geocoder;
-        List<Address> addresses = null;
-        geocoder = new Geocoder(getActivity(), Locale.getDefault());
 
-        try {
-            addresses = geocoder.getFromLocation(latitude, longitude, 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        return addresses;
-    }
 
 
     public void createFolder() {
@@ -351,43 +284,7 @@ public class fragment_selected_image extends Fragment {
         }
     }
 
-    private String convert(double latitude, double longitude) {
-        StringBuilder builder = new StringBuilder();
 
-        if (latitude < 0) {
-            builder.append("S ");
-        } else {
-            builder.append("N ");
-        }
-
-        String latitudeDegrees = Location.convert(Math.abs(latitude), Location.FORMAT_SECONDS);
-        String[] latitudeSplit = latitudeDegrees.split(":");
-        builder.append(latitudeSplit[0]);
-        builder.append("°");
-        builder.append(latitudeSplit[1]);
-        builder.append("'");
-        builder.append(latitudeSplit[2]);
-        builder.append("\"");
-
-        builder.append(" ");
-
-        if (longitude < 0) {
-            builder.append("W ");
-        } else {
-            builder.append("E ");
-        }
-
-        String longitudeDegrees = Location.convert(Math.abs(longitude), Location.FORMAT_SECONDS);
-        String[] longitudeSplit = longitudeDegrees.split(":");
-        builder.append(longitudeSplit[0]);
-        builder.append("°");
-        builder.append(longitudeSplit[1]);
-        builder.append("'");
-        builder.append(longitudeSplit[2]);
-        builder.append("\"");
-
-        return builder.toString();
-    }
 
 
     @Override
@@ -414,42 +311,9 @@ public class fragment_selected_image extends Fragment {
         {
             latitude = Prefs.getDouble("lat", 0);
             longitude = Prefs.getDouble("long", 0);
-            addresses = getLocationData();
-            if(addresses!=null)
-            if (addresses.size() > 0) {
-                if (addresses.get(0).getAddressLine(0) != null && !addresses.get(0).getAddressLine(0).equals("null"))
-                    address=addresses.get(0).getAddressLine(0)+",";
-                else
-                    address="";
-
-                if (addresses.get(0).getLocality() != null && !addresses.get(0).getLocality().equals("null"))
-                    city=addresses.get(0).getLocality()+",";
-                else
-                    city="";
-
-                if (addresses.get(0).getAdminArea() != null && !addresses.get(0).getAdminArea().equals("null"))
-                    state=addresses.get(0).getAdminArea()+",";
-                else
-                    state="";
-
-                if (addresses.get(0).getCountryName() != null && !addresses.get(0).getCountryName().equals("null"))
-                    country=addresses.get(0).getCountryName()+",";
-                else
-                    country="";
-
-                if (addresses.get(0).getPostalCode() != null && !addresses.get(0).getPostalCode().equals("null"))
-                    postalCode="Postal Code: "+addresses.get(0).getPostalCode();
-                else
-                    postalCode="";
-
-
-
-
-
-                coordinates = convert(latitude, longitude);
-                Prefs.putString("address", address  + city  + state + country  + postalCode);
-                text.setText(Prefs.getString("time", "") + " | " + Prefs.getString("date", "") + " |\n" + latitude + " " + longitude + " | " + coordinates + " |\n" + Prefs.getString("address", ""));
-            }
+            addresses = getLocationData(getActivity(),latitude,longitude);
+            setAddress();
+            AppUtils.loadImage(watermark,Prefs.getString("watermark",""),getActivity());
             EventBus.getDefault().removeStickyEvent(messageEvent);
         }
     }
@@ -491,8 +355,9 @@ public class fragment_selected_image extends Fragment {
                         fragmentManager.popBackStackImmediate();
                         fts.commit();
                     }
-
+                     Prefs.putString("watermark","");
                      deleteBackupFromImage();
+                     deleteBackupFromImage_watermark();
                 }
         }
 
@@ -520,6 +385,57 @@ public class fragment_selected_image extends Fragment {
         }
     }
 
+    private void deleteBackupFromImage_watermark() {
+
+        try {
+            File fichero = new File(Prefs.getString("watermark",""));
+            File carpeta = fichero.getParentFile();
+            for (File file : carpeta.listFiles()) {
+                file.delete();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
+    public void setAddress()
+    {
+        if(addresses!=null)
+            if (addresses.size() > 0) {
+                if (addresses.get(0).getAddressLine(0) != null && !addresses.get(0).getAddressLine(0).equals("null"))
+                    address=addresses.get(0).getAddressLine(0)+",";
+                else
+                    address="";
+
+                if (addresses.get(0).getLocality() != null && !addresses.get(0).getLocality().equals("null"))
+                    city=addresses.get(0).getLocality()+",";
+                else
+                    city="";
+
+                if (addresses.get(0).getAdminArea() != null && !addresses.get(0).getAdminArea().equals("null"))
+                    state=addresses.get(0).getAdminArea()+",";
+                else
+                    state="";
+
+                if (addresses.get(0).getCountryName() != null && !addresses.get(0).getCountryName().equals("null"))
+                    country=addresses.get(0).getCountryName()+",";
+                else
+                    country="";
+
+                if (addresses.get(0).getPostalCode() != null && !addresses.get(0).getPostalCode().equals("null"))
+                    postalCode="Postal Code: "+addresses.get(0).getPostalCode();
+                else
+                    postalCode="";
+
+
+
+
+
+                coordinates = AppUtils.convert(latitude, longitude);
+                Prefs.putString("address", address  + city  + state + country  + postalCode);
+                text.setText(Prefs.getString("time", "") + " | " + Prefs.getString("date", "") + " |\n" + latitude + " " + longitude + " | " + coordinates + " |\n" + Prefs.getString("address", ""));
+            }
+    }
 
 }
 

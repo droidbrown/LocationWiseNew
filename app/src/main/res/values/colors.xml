@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#CA522B</color>
     <color name="colorPrimaryDark">#CA522B</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#CA522B</color>
     <color name="white">#fff</color>
     <color name="appcolor">#F46333</color>
     <color name="brown">#644747</color>

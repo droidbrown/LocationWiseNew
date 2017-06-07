@@ -4,11 +4,17 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.media.Image;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +25,12 @@ import com.hashbrown.erebor.locationwisenew.datetimepicker.SimpleDateTimePicker;
 import com.hashbrown.erebor.locationwisenew.utils.AppUtils;
 import com.hashbrown.erebor.locationwisenew.utils.MessageEvent;
 import com.hashbrown.erebor.locationwisenew.utils.ViewUtils;
+import com.hashbrown.erebor.locationwisenew.views.fragments.fragment_selected_image;
+import com.kbeanie.imagechooser.api.ChooserType;
+import com.kbeanie.imagechooser.api.ChosenImage;
+import com.kbeanie.imagechooser.api.ChosenImages;
+import com.kbeanie.imagechooser.api.ImageChooserListener;
+import com.kbeanie.imagechooser.api.ImageChooserManager;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.IOException;
@@ -33,8 +45,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
-public class Activity_EditDetails extends AppCompatActivity implements DateTimePicker.OnDateTimeSetListener{
+public class Activity_EditDetails extends AppCompatActivity implements DateTimePicker.OnDateTimeSetListener,ImageChooserListener {
 
+    private static final String TAG ="edit details" ;
+    @BindView(R.id.progressBar)
+    ProgressBar progress;
     @BindView(R.id.top_text)
     TextView top_text;
     @BindView(R.id.head1)
@@ -45,6 +60,8 @@ public class Activity_EditDetails extends AppCompatActivity implements DateTimeP
     TextView gps_heading;
     @BindView(R.id.head4)
     TextView latlong_heading;
+    @BindView(R.id.head5)
+    TextView watermark_heading;
     @BindView(R.id.val1)
     TextView datetime_value;
     @BindView(R.id.val2)
@@ -61,12 +78,21 @@ public class Activity_EditDetails extends AppCompatActivity implements DateTimeP
     Button save;
     @BindView(R.id.back)
     ImageView back;
+    @BindView(R.id.watermark)
+    LinearLayout watermark_view;
     Double latitude,longitude;
     String date,time;
     @BindView(R.id.edit_parent)
     CoordinatorLayout edit_parent;
-
-
+    @BindView(R.id.watermarkimage)
+    ImageView watermark_image;
+    private String originalFilePath;
+    private String thumbnailFilePath;
+    private String thumbnailSmallFilePath;
+    ImageChooserManager imageChooserManager;
+    private boolean isActivityResultOver = false;
+    private int chooserType;
+    private String filePath;
     String address,city,state,country,postalCode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,11 +112,17 @@ public class Activity_EditDetails extends AppCompatActivity implements DateTimeP
         TypefaceHelper.getInstance().setTypeface(address_heading,getString(R.string.book));
         TypefaceHelper.getInstance().setTypeface(gps_heading,getString(R.string.book));
         TypefaceHelper.getInstance().setTypeface(latlong_heading,getString(R.string.book));
+        TypefaceHelper.getInstance().setTypeface(watermark_heading,getString(R.string.book));
         TypefaceHelper.getInstance().setTypeface(datetime_value,getString(R.string.light));
         TypefaceHelper.getInstance().setTypeface(address_value,getString(R.string.light));
         TypefaceHelper.getInstance().setTypeface(gps_value,getString(R.string.light));
         TypefaceHelper.getInstance().setTypeface(latlong_value,getString(R.string.light));
         TypefaceHelper.getInstance().setTypeface(save,getString(R.string.book));
+
+        if(Prefs.getString("watermark","")!="")
+        {
+            AppUtils.loadImage(watermark_image,Prefs.getString("watermark",""),this);
+        }
 
 
     }
@@ -117,7 +149,7 @@ public class Activity_EditDetails extends AppCompatActivity implements DateTimeP
 
         Prefs.putDouble("lat", latitude );
         Prefs.putDouble("long",longitude);
-
+        Prefs.putString("watermark",thumbnailSmallFilePath);
         EventBus.getDefault().postSticky(new MessageEvent("datetime"));
 
         finish();
@@ -125,6 +157,11 @@ public class Activity_EditDetails extends AppCompatActivity implements DateTimeP
 
     }
 
+    @OnClick(R.id.watermark)
+    void onWatermark()
+    {
+        chooseImage_Multiple();
+    }
     @OnClick(R.id.edit_datetime)
     void ondatetime()
     {
@@ -300,5 +337,84 @@ public class Activity_EditDetails extends AppCompatActivity implements DateTimeP
         return addresses;
     }
 
+    private void reinitializeImageChooser() {
+        imageChooserManager = new ImageChooserManager(this, chooserType, true);
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        imageChooserManager.setExtras(bundle);
+        imageChooserManager.setImageChooserListener(this);
+        imageChooserManager.reinitialize(filePath);
+    }
 
+    //selecting multiple_select_image from gallery
+    private void chooseImage_Multiple()
+    {
+
+        chooserType = ChooserType.REQUEST_PICK_PICTURE;
+        imageChooserManager = new ImageChooserManager(this,
+                ChooserType.REQUEST_PICK_PICTURE, true);
+        Bundle bundle = new Bundle();
+        imageChooserManager.setExtras(bundle);
+        imageChooserManager.setImageChooserListener(this);
+        imageChooserManager.clearOldFiles();
+        try {
+            progress.setVisibility(View.VISIBLE);
+            filePath = imageChooserManager.choose();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public void onImageChosen(final ChosenImage chosenImage) {
+       this.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+
+                isActivityResultOver = true;
+                originalFilePath = chosenImage.getFilePathOriginal();
+                thumbnailFilePath = chosenImage.getFileThumbnail();
+                thumbnailSmallFilePath = chosenImage.getFileThumbnailSmall();
+                progress.setVisibility(View.GONE);
+                if (chosenImage != null)
+                {
+                    Log.i(TAG, "Chosen Image: Is not null");
+                    AppUtils.loadImage(watermark_image,thumbnailSmallFilePath,getApplicationContext());
+
+                } else {
+                    Log.i(TAG, "Chosen Image: Is null");
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onError(String s) {
+
+    }
+
+    @Override
+    public void onImagesChosen(ChosenImages chosenImages) {
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.i(TAG, "OnActivityResult");
+        Log.i(TAG, "File Path : " + filePath);
+        Log.i(TAG, "Chooser Type: " + chooserType);
+        if (resultCode == RESULT_OK && (requestCode == ChooserType.REQUEST_PICK_PICTURE || requestCode == ChooserType.REQUEST_CAPTURE_PICTURE)) {
+            if (imageChooserManager == null) {
+                reinitializeImageChooser();
+            }
+            imageChooserManager.submit(requestCode, data);
+        }
+        else
+        {
+            progress.setVisibility(View.GONE);
+        }
+    }
 }

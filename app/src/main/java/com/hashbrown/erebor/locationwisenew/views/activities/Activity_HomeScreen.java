@@ -11,6 +11,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -20,6 +21,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -33,6 +35,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.drivemode.android.typeface.TypefaceHelper;
 import com.google.android.gms.common.ConnectionResult;
@@ -46,21 +49,33 @@ import com.hashbrown.erebor.locationwisenew.utils.AppUtils;
 import com.hashbrown.erebor.locationwisenew.utils.MessageEvent;
 import com.hashbrown.erebor.locationwisenew.utils.constants;
 import com.hashbrown.erebor.locationwisenew.views.fragments.fragment_home_screen;
+import com.hashbrown.erebor.locationwisenew.views.fragments.fragment_multiple_click_images_new;
+import com.hashbrown.erebor.locationwisenew.views.fragments.fragment_multiple_click_images_old;
 import com.hashbrown.erebor.locationwisenew.views.fragments.fragment_selected_image;
+import com.hashbrown.erebor.locationwisenew.views.fragments.fragment_video;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
+import static java.util.Calendar.getInstance;
+
 public class Activity_HomeScreen extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+    private static final int MULTIPLE_PERMISSIONS =1 ;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private double currentLatitude;
@@ -78,12 +93,20 @@ public class Activity_HomeScreen extends AppCompatActivity
     List<Address> addresses = null;
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
         ButterKnife.bind(this);
 
+        //datetime
+        DateFormat df = new SimpleDateFormat("HH:mm:ss a");
+        DateFormat df1 = new SimpleDateFormat("d MMM yyyy");
+        String time = df1.format(getInstance().getTime());
+        String date = df.format(getInstance().getTime());
+        Prefs.putString("date", date);
+        Prefs.putString("time", time);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -120,7 +143,7 @@ public class Activity_HomeScreen extends AppCompatActivity
         fragment_home_screen fragment= fragment_home_screen.newInstance();
         FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
         fts.add(R.id.home_coordinate, fragment);
-        //fts.addToBackStack(fragment.getClass().getSimpleName());
+     //   fts.addToBackStack(fragment.getClass().getSimpleName());
         fts.commit();
 
         checkInternet();
@@ -153,13 +176,36 @@ public class Activity_HomeScreen extends AppCompatActivity
     }
     @Override
     public void onBackPressed() {
+        deleteBackupFromImage_watermark();
+        deleteBackupForloc_mid();
+
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
 
+        else
+        {
+            FragmentTransaction fts = this.getSupportFragmentManager().beginTransaction();
+            FragmentManager fragmentManager = this.getSupportFragmentManager();
+            if (fragmentManager.getBackStackEntryCount() >= 1) {
+                fragmentManager.popBackStackImmediate();
+
+                // fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                fts.commit();
+            } else {
+                finish();
+            }
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        deleteBackupFromImage_watermark();
+        deleteBackupForloc_mid();
     }
 
     //on resume method of activity
@@ -197,18 +243,45 @@ public class Activity_HomeScreen extends AppCompatActivity
 
         if (id == R.id.home)
         {
-            fragment_home_screen fragment= fragment_home_screen.newInstance();
-            FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
-            fts.replace(R.id.home_coordinate, fragment);
-            //fts.addToBackStack(fragment.getClass().getSimpleName());
-            fts.commit();
-        }
+
+                if (AppUtils.isNetworkConnected(this))
+                {
+                    try {
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            fragment_multiple_click_images_new fragment = fragment_multiple_click_images_new.newInstance();
+                            FragmentTransaction fts = this.getSupportFragmentManager().beginTransaction();
+                            fts.replace(R.id.home_coordinate, fragment);
+                            fts.addToBackStack(fragment.getClass().getSimpleName());
+                            fts.commit();
+                        }
+                        else {
+                            fragment_multiple_click_images_old fragment = fragment_multiple_click_images_old.newInstance(0);
+                            FragmentTransaction fts =this.getSupportFragmentManager().beginTransaction();
+                            fts.replace(R.id.home_coordinate, fragment);
+                            fts.addToBackStack(fragment.getClass().getSimpleName());
+                            fts.commit();
+                        }
+
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+                else
+                    Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+
+            }
+
 
         else if (id == R.id.nav_slideshow)
         {
-            Intent i=new Intent(this,Activity_SavedImages.class);
-            startActivity(i);
-            overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+            fragment_video fragment = fragment_video.newInstance();
+            FragmentTransaction fts =this.getSupportFragmentManager().beginTransaction();
+            fts.replace(R.id.home_coordinate, fragment);
+            fts.addToBackStack(fragment.getClass().getSimpleName());
+            fts.commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -239,6 +312,7 @@ public class Activity_HomeScreen extends AppCompatActivity
             addresses = getLocationData();
 
             if(Prefs.getString("comingFrom","").equalsIgnoreCase("splash")) {
+                Prefs.putString("watermark","");
                 Prefs.putDouble("lat", currentLatitude);
                 Prefs.putDouble("long", currentLongitude);
 
@@ -347,6 +421,138 @@ public class Activity_HomeScreen extends AppCompatActivity
 
         }
     }
+    private void deleteBackupFromImage_watermark() {
+
+        try {
+            File fichero = new File(Prefs.getString("watermark",""));
+            File carpeta = fichero.getParentFile();
+            for (File file : carpeta.listFiles()) {
+                file.delete();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
+
+private void deleteBackupForloc_mid()
+{
+    File dir = new File(Environment.getExternalStorageDirectory()+"loc_mid");
+    if (dir.isDirectory())
+    {
+        String[] children = dir.list();
+        for (int i = 0; i < children.length; i++)
+        {
+            new File(dir, children[i]).delete();
+        }
+    }
+}
+    //gallery permission
+    private boolean checkAndRequestPermissions() {
+        int gallery_permission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int camera_permission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA);
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        if (gallery_permission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if (camera_permission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.CAMERA);
+        }
+
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), MULTIPLE_PERMISSIONS);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        Log.d("", "Permission callback called-------");
+        switch (requestCode) {
+            case MULTIPLE_PERMISSIONS: {
+
+                Map<String, Integer> perms = new HashMap<>();
+                // Initialize the map with both permissions
+                perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
+
+                // Fill with actual results from user
+                if (grantResults.length > 0) {
+                    for (int i = 0; i < permissions.length; i++)
+                        perms.put(permissions[i], grantResults[i]);
+
+                    if (perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && perms.get(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+
+                        if (AppUtils.isNetworkConnected(this))
+                        {
+                            try {
+
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                    fragment_multiple_click_images_new fragment = fragment_multiple_click_images_new.newInstance();
+                                    FragmentTransaction fts = this.getSupportFragmentManager().beginTransaction();
+                                    fts.replace(R.id.home_coordinate, fragment);
+                                    fts.addToBackStack(fragment.getClass().getSimpleName());
+                                    fts.commit();
+                                }
+                                else {
+                                    fragment_multiple_click_images_old fragment = fragment_multiple_click_images_old.newInstance(0);
+                                    FragmentTransaction fts =this.getSupportFragmentManager().beginTransaction();
+                                    fts.replace(R.id.home_coordinate, fragment);
+                                    fts.addToBackStack(fragment.getClass().getSimpleName());
+                                    fts.commit();
+                                }
+
+                            }
+                            catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
+                        }
+                        else
+                            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
 
 
+                    } else {
+                        Log.d("", "Some permissions are not granted ask again ");
+
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            showDialogOK("Storage and Camera Services Permission required for this app",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            switch (which) {
+                                                case DialogInterface.BUTTON_POSITIVE:
+                                                    checkAndRequestPermissions();
+                                                    break;
+                                                case DialogInterface.BUTTON_NEGATIVE:
+                                                    // proceed with logic by disabling the related features or quit the app.
+                                                    break;
+                                            }
+                                        }
+                                    });
+                        }
+                        //permission is denied (and never ask again is  checked)
+                        //shouldShowRequestPermissionRationale will return false
+                        else {
+                            Toast.makeText(this, "Go to settings and enable permissions", Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    private void showDialogOK(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", okListener)
+                .create()
+                .show();
+    }
 }

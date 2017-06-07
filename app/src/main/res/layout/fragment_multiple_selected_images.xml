@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:background="@color/black"
+    android:orientation="vertical">
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v4.view.ViewPager>
+
+        <ImageView
+            android:id="@+id/cross"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|top"
+            android:background="?attr/selectableItemBackground"
+            android:src="@drawable/ic_cross_icon" />
+
+        <ImageView
+            android:id="@+id/watermark_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="end|top"
+            android:background="?attr/selectableItemBackground"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:background="?attr/selectableItemBackground"
+            android:src="@drawable/back" />
+
+        <ImageView
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center"
+            android:background="?attr/selectableItemBackground"
+            android:src="@drawable/next" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom">
+
+            <ImageView
+                android:id="@+id/edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/ll_bottontext"
+                android:layout_alignParentLeft="true"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/ic_edit_icon" />
+
+            <ImageView
+                android:id="@+id/save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/ll_bottontext"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="end|bottom"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/ic_save_icon" />
+
+            <LinearLayout
+                android:id="@+id/ll_bottontext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/switch1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/save"
+                    android:layout_gravity="end|bottom"
+                    android:layout_marginRight="@dimen/margin_10_dp"
+                    android:drawablePadding="@dimen/padding_5dp"
+                    android:shadowColor="@color/appcolor"
+
+                    android:text="Layer"
+                    android:textColor="@color/white"
+
+                    android:theme="@style/Color1SwitchStyle" />
+
+                <TextView
+                    android:id="@+id/text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/appcolor"
+                    android:padding="@dimen/size_5_dp"
+
+                    android:textColor="@color/white" />
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/selected_image_list"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"></android.support.v7.widget.RecyclerView>
+</RelativeLayout>
