@@ -82,7 +82,7 @@ public class ImageList_Adapter extends RecyclerView.Adapter<ImageList_Adapter.Vi
 
                String loc=arrayList.get(position).substring(arrayList.get(position).lastIndexOf("/") + 1).trim();
              //  System.out.println("loc   "+loc);
-               loc="sdcard/LocationWise/"+loc;
+               loc="sdcard/LocationWise/Images/"+loc;
         try
         {
             holder.address.setText(db_locationwise.getAddress(loc));

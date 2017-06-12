@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.media.Image;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.drivemode.android.typeface.TypefaceHelper;
 import com.hashbrown.erebor.locationwisenew.R;
@@ -25,7 +22,6 @@ import com.hashbrown.erebor.locationwisenew.datetimepicker.SimpleDateTimePicker;
 import com.hashbrown.erebor.locationwisenew.utils.AppUtils;
 import com.hashbrown.erebor.locationwisenew.utils.MessageEvent;
 import com.hashbrown.erebor.locationwisenew.utils.ViewUtils;
-import com.hashbrown.erebor.locationwisenew.views.fragments.fragment_selected_image;
 import com.kbeanie.imagechooser.api.ChooserType;
 import com.kbeanie.imagechooser.api.ChosenImage;
 import com.kbeanie.imagechooser.api.ChosenImages;
@@ -88,7 +84,7 @@ public class Activity_EditDetails extends AppCompatActivity implements DateTimeP
     ImageView watermark_image;
     private String originalFilePath;
     private String thumbnailFilePath;
-    private String thumbnailSmallFilePath;
+    private String thumbnailSmallFilePath=null;
     ImageChooserManager imageChooserManager;
     private boolean isActivityResultOver = false;
     private int chooserType;
@@ -149,7 +145,9 @@ public class Activity_EditDetails extends AppCompatActivity implements DateTimeP
 
         Prefs.putDouble("lat", latitude );
         Prefs.putDouble("long",longitude);
+        if(thumbnailSmallFilePath!=null)
         Prefs.putString("watermark",thumbnailSmallFilePath);
+
         EventBus.getDefault().postSticky(new MessageEvent("datetime"));
 
         finish();

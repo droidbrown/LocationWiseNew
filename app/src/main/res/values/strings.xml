@@ -28,4 +28,8 @@
     <string name="cancel">Cancel</string>
     <string name="addwatermark">Add Watermark</string>
     <string name="take_picture">Take Picture</string>
+    <string name="shoot">Shoot Video</string>
+    <string name="browsevideo">Browse From Gallery</string>
+    <string name="label_select_video">select video</string>
+    <string name="video_saved_at" />
 </resources>

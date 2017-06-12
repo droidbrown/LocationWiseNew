@@ -2,20 +2,27 @@ package com.hashbrown.erebor.locationwisenew.views.activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.ContentUris;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -33,26 +40,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.drivemode.android.typeface.TypefaceHelper;
+import com.github.hiteshsondhi88.libffmpeg.FFmpeg;
+import com.github.hiteshsondhi88.libffmpeg.LoadBinaryResponseHandler;
+import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegNotSupportedException;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.vision.text.Text;
 import com.hashbrown.erebor.locationwisenew.R;
 import com.hashbrown.erebor.locationwisenew.utils.AppUtils;
-import com.hashbrown.erebor.locationwisenew.utils.MessageEvent;
-import com.hashbrown.erebor.locationwisenew.utils.constants;
-import com.hashbrown.erebor.locationwisenew.views.fragments.fragment_home_screen;
-import com.hashbrown.erebor.locationwisenew.views.fragments.fragment_multiple_click_images_new;
-import com.hashbrown.erebor.locationwisenew.views.fragments.fragment_multiple_click_images_old;
-import com.hashbrown.erebor.locationwisenew.views.fragments.fragment_selected_image;
-import com.hashbrown.erebor.locationwisenew.views.fragments.fragment_video;
+import com.hashbrown.erebor.locationwisenew.views.fragments.FragmentHomeScreen;
+import com.hashbrown.erebor.locationwisenew.views.fragments.FragmentMultipleClickImagesNew;
+import com.hashbrown.erebor.locationwisenew.views.fragments.FragmentMultipleClickImagesOld;
+import com.hashbrown.erebor.locationwisenew.views.fragments.FragmentVideo;
+import com.hashbrown.erebor.locationwisenew.views.fragments.FragmentVideo_New;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.File;
@@ -68,14 +75,14 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.greenrobot.event.EventBus;
 
 import static java.util.Calendar.getInstance;
 
 public class Activity_HomeScreen extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+        implements NavigationView.OnNavigationItemSelectedListener,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener,View.OnClickListener {
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private static final int MULTIPLE_PERMISSIONS =1 ;
+    private static final int REQUEST_TAKE_GALLERY_VIDEO = 1;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private double currentLatitude;
@@ -84,14 +91,16 @@ public class Activity_HomeScreen extends AppCompatActivity
     CoordinatorLayout home_coordinate;
      @BindView(R.id.top_text)
     TextView top_text;
-
+    BottomSheetBehavior bottomSheetBehavior;
+    @BindView(R.id.bottomSheetLayout)
+    RelativeLayout bottomSheetLayout;
     @BindView(R.id.saved)
     ImageView saved;
     @BindView(R.id.multiple)
      ImageView multiple;
     DrawerLayout drawer;
     List<Address> addresses = null;
-
+    TextView shoot,browse,close;
     @Override
 
     protected void onCreate(Bundle savedInstanceState)
@@ -99,6 +108,7 @@ public class Activity_HomeScreen extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
         ButterKnife.bind(this);
+
 
         //datetime
         DateFormat df = new SimpleDateFormat("HH:mm:ss a");
@@ -140,7 +150,7 @@ public class Activity_HomeScreen extends AppCompatActivity
         TypefaceHelper.getInstance().setTypeface(nav_top,getString(R.string.book));
 
         //adding first fragment
-        fragment_home_screen fragment= fragment_home_screen.newInstance();
+        FragmentHomeScreen fragment= FragmentHomeScreen.newInstance();
         FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
         fts.add(R.id.home_coordinate, fragment);
      //   fts.addToBackStack(fragment.getClass().getSimpleName());
@@ -164,7 +174,49 @@ public class Activity_HomeScreen extends AppCompatActivity
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
+        //bottom sheet
+        //bottom sheet behave
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout);
+        shoot=(TextView)bottomSheetLayout.findViewById(R.id.shoot);
+        browse=(TextView)bottomSheetLayout.findViewById(R.id.browse);
+        close=(TextView)bottomSheetLayout.findViewById(R.id.close);
+        shoot.setOnClickListener(this);
+        browse.setOnClickListener(this);
+        close.setOnClickListener(this);
 
+        firstTimeLoadFFMPEG();
+    }
+
+    private void firstTimeLoadFFMPEG() {
+        String status=Prefs.getString("ffmpeg","");
+        if(status.equals("notdone"))
+        {
+            FFmpeg ffmpeg = FFmpeg.getInstance(this);
+            try {
+                ffmpeg.loadBinary(new LoadBinaryResponseHandler() {
+
+                    @Override
+                    public void onStart() {
+                    }
+
+                    @Override
+                    public void onFailure() {
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                        Prefs.putString("ffmpeg", "done");
+                    }
+                });
+            } catch (FFmpegNotSupportedException e) {
+                // Handle if FFmpeg is not supported by device
+            }
+        }
     }
 
     @OnClick(R.id.saved)
@@ -176,8 +228,6 @@ public class Activity_HomeScreen extends AppCompatActivity
     }
     @Override
     public void onBackPressed() {
-        deleteBackupFromImage_watermark();
-        deleteBackupForloc_mid();
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -194,8 +244,16 @@ public class Activity_HomeScreen extends AppCompatActivity
 
                 // fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 fts.commit();
+
+
             } else {
+                deleteBackupForloc_mid();
+                deleteBackupForbichooser();
+                deleteBackupFromImage_watermark();
+                del_vid();
                 finish();
+
+
             }
         }
 
@@ -204,8 +262,11 @@ public class Activity_HomeScreen extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        deleteBackupFromImage_watermark();
         deleteBackupForloc_mid();
+        deleteBackupForbichooser();
+        deleteBackupFromImage_watermark();
+        del_vid();
+
     }
 
     //on resume method of activity
@@ -249,14 +310,14 @@ public class Activity_HomeScreen extends AppCompatActivity
                     try {
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            fragment_multiple_click_images_new fragment = fragment_multiple_click_images_new.newInstance();
+                            FragmentMultipleClickImagesNew fragment = FragmentMultipleClickImagesNew.newInstance();
                             FragmentTransaction fts = this.getSupportFragmentManager().beginTransaction();
                             fts.replace(R.id.home_coordinate, fragment);
                             fts.addToBackStack(fragment.getClass().getSimpleName());
                             fts.commit();
                         }
                         else {
-                            fragment_multiple_click_images_old fragment = fragment_multiple_click_images_old.newInstance(0);
+                            FragmentMultipleClickImagesOld fragment = FragmentMultipleClickImagesOld.newInstance(0);
                             FragmentTransaction fts =this.getSupportFragmentManager().beginTransaction();
                             fts.replace(R.id.home_coordinate, fragment);
                             fts.addToBackStack(fragment.getClass().getSimpleName());
@@ -277,11 +338,11 @@ public class Activity_HomeScreen extends AppCompatActivity
 
         else if (id == R.id.nav_slideshow)
         {
-            fragment_video fragment = fragment_video.newInstance();
-            FragmentTransaction fts =this.getSupportFragmentManager().beginTransaction();
-            fts.replace(R.id.home_coordinate, fragment);
-            fts.addToBackStack(fragment.getClass().getSimpleName());
-            fts.commit();
+
+            bottomSheetLayout.setVisibility(View.VISIBLE);
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -370,14 +431,45 @@ public class Activity_HomeScreen extends AppCompatActivity
     }
 
 
+
+
+
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        fragment_home_screen fragment_products = fragment_home_screen.newInstance();
+        FragmentHomeScreen fragment_products = FragmentHomeScreen.newInstance();
         if (fragment_products == getVisibleFragment())
             fragment_products.onActivityResult(requestCode, resultCode, data);
 
+
+        if (resultCode == RESULT_OK && requestCode == 1010) {
+
+            Uri uri = data.getData();
+            String path=  getPath(this,uri);
+            FragmentVideo_New fragment = FragmentVideo_New.newInstance(path);
+            FragmentTransaction fts = this.getSupportFragmentManager().beginTransaction();
+            fts.add(R.id.home_coordinate, fragment);
+            fts.addToBackStack(fragment.getClass().getSimpleName());
+            fts.commit();
+        }
+
+        if (resultCode == RESULT_OK && requestCode == 1001) {
+
+            Uri uri = data.getData();
+            String path=  getPath(this,uri);
+            FragmentVideo_New fragment = FragmentVideo_New.newInstance(path);
+            FragmentTransaction fts = this.getSupportFragmentManager().beginTransaction();
+            fts.add(R.id.home_coordinate, fragment);
+            fts.addToBackStack(fragment.getClass().getSimpleName());
+            fts.commit();
+        }
     }
+
+
+
+
     public Fragment getVisibleFragment() {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         List<Fragment> fragments = fragmentManager.getFragments();
@@ -421,32 +513,7 @@ public class Activity_HomeScreen extends AppCompatActivity
 
         }
     }
-    private void deleteBackupFromImage_watermark() {
 
-        try {
-            File fichero = new File(Prefs.getString("watermark",""));
-            File carpeta = fichero.getParentFile();
-            for (File file : carpeta.listFiles()) {
-                file.delete();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
-    }
-
-private void deleteBackupForloc_mid()
-{
-    File dir = new File(Environment.getExternalStorageDirectory()+"loc_mid");
-    if (dir.isDirectory())
-    {
-        String[] children = dir.list();
-        for (int i = 0; i < children.length; i++)
-        {
-            new File(dir, children[i]).delete();
-        }
-    }
-}
     //gallery permission
     private boolean checkAndRequestPermissions() {
         int gallery_permission = ContextCompat.checkSelfPermission(this,
@@ -491,14 +558,14 @@ private void deleteBackupForloc_mid()
                             try {
 
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                    fragment_multiple_click_images_new fragment = fragment_multiple_click_images_new.newInstance();
+                                    FragmentMultipleClickImagesNew fragment = FragmentMultipleClickImagesNew.newInstance();
                                     FragmentTransaction fts = this.getSupportFragmentManager().beginTransaction();
                                     fts.replace(R.id.home_coordinate, fragment);
                                     fts.addToBackStack(fragment.getClass().getSimpleName());
                                     fts.commit();
                                 }
                                 else {
-                                    fragment_multiple_click_images_old fragment = fragment_multiple_click_images_old.newInstance(0);
+                                    FragmentMultipleClickImagesOld fragment = FragmentMultipleClickImagesOld.newInstance(0);
                                     FragmentTransaction fts =this.getSupportFragmentManager().beginTransaction();
                                     fts.replace(R.id.home_coordinate, fragment);
                                     fts.addToBackStack(fragment.getClass().getSimpleName());
@@ -555,4 +622,235 @@ private void deleteBackupForloc_mid()
                 .create()
                 .show();
     }
+
+    //delete
+
+    private void del_vid()
+    {
+
+            File dir = new File(Environment.getExternalStorageDirectory() + "/tmploc");
+            if (dir.isDirectory()) {
+                String[] children = dir.list();
+                for (int i = 0; i < children.length; i++) {
+                    new File(dir, children[i]).delete();
+                }
+            }
+
+    }
+    private void deleteBackupFromImage_watermark() {
+
+        try {
+
+
+
+            File fichero = new File(Prefs.getString("watermark",""));
+            File carpeta = fichero.getParentFile();
+            for (File file : carpeta.listFiles()) {
+                file.delete();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    private void deleteBackupForloc_mid()
+    {
+        File dir = new File(Environment.getExternalStorageDirectory()+"/tmploc");
+        if (dir.isDirectory())
+        {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++)
+            {
+                new File(dir, children[i]).delete();
+            }
+        }
+    }
+    private void deleteBackupForbichooser()
+    {
+        File dir = new File(Environment.getExternalStorageDirectory()+"/bichooser");
+        if (dir.isDirectory())
+        {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++)
+            {
+                new File(dir, children[i]).delete();
+            }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v==shoot)
+        {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            bottomSheetLayout.setVisibility(View.INVISIBLE);
+            dispatchTakeVideoIntent();
+        }
+        else if(v==browse)
+        {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            bottomSheetLayout.setVisibility(View.INVISIBLE);
+             pickImageOrVideo();
+        }
+        else if(v==close)
+        {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            bottomSheetLayout.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void dispatchTakeVideoIntent() {
+        Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takeVideoIntent, 1001);
+        }
+    }
+
+    private void pickImageOrVideo() {
+        if (Build.VERSION.SDK_INT < 19) {
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("video/*");
+            startActivityForResult(photoPickerIntent,1010);
+        } else {
+            Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+            photoPickerIntent.setType("*/*");
+            startActivityForResult(photoPickerIntent, 1010);
+        }
+    }
+
+
+    public static String getFileExt(String fileName) {
+        return "."+fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
+    }
+
+    /**
+     * Get a file path from a Uri. This will get the the path for Storage Access
+     * Framework Documents, as well as the _data field for the MediaStore and
+     * other file-based ContentProviders.
+     *
+     * @param context The context.
+     * @param uri The Uri to query.
+     * @author paulburke
+     */
+    public static String getPath(final Context context, final Uri uri) {
+
+        final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+
+        // DocumentProvider
+        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+            // ExternalStorageProvider
+            if (isExternalStorageDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                if ("primary".equalsIgnoreCase(type)) {
+                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+                }
+
+                // TODO handle non-primary volumes
+            }
+            // DownloadsProvider
+            else if (isDownloadsDocument(uri)) {
+
+                final String id = DocumentsContract.getDocumentId(uri);
+                final Uri contentUri = ContentUris.withAppendedId(
+                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+
+                return getDataColumn(context, contentUri, null, null);
+            }
+            // MediaProvider
+            else if (isMediaDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                Uri contentUri = null;
+                if ("image".equals(type)) {
+                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                } else if ("video".equals(type)) {
+                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                } else if ("audio".equals(type)) {
+                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                }
+
+                final String selection = "_id=?";
+                final String[] selectionArgs = new String[] {
+                        split[1]
+                };
+
+                return getDataColumn(context, contentUri, selection, selectionArgs);
+            }
+        }
+        // MediaStore (and general)
+        else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            return getDataColumn(context, uri, null, null);
+        }
+        // File
+        else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the value of the data column for this Uri. This is useful for
+     * MediaStore Uris, and other file-based ContentProviders.
+     *
+     * @param context The context.
+     * @param uri The Uri to query.
+     * @param selection (Optional) Filter used in the query.
+     * @param selectionArgs (Optional) Selection arguments used in the query.
+     * @return The value of the _data column, which is typically a file path.
+     */
+    public static String getDataColumn(Context context, Uri uri, String selection,
+                                       String[] selectionArgs) {
+
+        Cursor cursor = null;
+        final String column = "_data";
+        final String[] projection = {
+                column
+        };
+
+        try {
+            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
+                    null);
+            if (cursor != null && cursor.moveToFirst()) {
+                final int column_index = cursor.getColumnIndexOrThrow(column);
+                return cursor.getString(column_index);
+            }
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
+
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is ExternalStorageProvider.
+     */
+    public static boolean isExternalStorageDocument(Uri uri) {
+        return "com.android.externalstorage.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is DownloadsProvider.
+     */
+    public static boolean isDownloadsDocument(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is MediaProvider.
+     */
+    public static boolean isMediaDocument(Uri uri) {
+        return "com.android.providers.media.documents".equals(uri.getAuthority());
+    }
+
 }

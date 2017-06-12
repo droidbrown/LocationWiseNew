@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottomSheetLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+android:background="@color/bottomsheet_bg"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="60dp"
+    app:layout_behavior="@string/bottom_sheet_behavior">
+
+    <View
+        android:id="@+id/view0"
+       android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:background="@android:color/darker_gray"
+        android:layout_height="0.5dp"/>
+
+    <TextView
+        android:layout_below="@+id/view0"
+        android:padding="@dimen/size_10_dp"
+        android:id="@+id/shoot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:text="@string/shoot"
+        android:textAlignment="gravity"
+        android:gravity="center"
+        android:textSize="@dimen/text_18_sp"
+        android:textAppearance="@android:style/TextAppearance.Small" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_below="@+id/shoot"
+        android:layout_width="match_parent"
+        android:background="@android:color/darker_gray"
+        android:layout_height="0.5dp"/>
+
+    <TextView
+        android:padding="@dimen/size_10_dp"
+        android:textAlignment="gravity"
+        android:gravity="center"
+        android:layout_below="@+id/view1"
+        android:id="@+id/browse"
+        android:textSize="@dimen/text_18_sp"
+        android:background="?attr/selectableItemBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/browsevideo"
+        android:textAppearance="@android:style/TextAppearance.Small" />
+
+    <View
+        android:layout_width="match_parent"
+        android:id="@+id/view2"
+        android:layout_below="@+id/browse"
+        android:background="@android:color/darker_gray"
+        android:layout_height="0.5dp"/>
+
+    <TextView
+        android:padding="@dimen/size_10_dp"
+        android:textAlignment="gravity"
+        android:gravity="center"
+        android:layout_below="@+id/view2"
+        android:background="?attr/selectableItemBackground"
+        android:id="@+id/close"
+        android:textSize="@dimen/text_18_sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+        android:textAppearance="@android:style/TextAppearance.Small" />
+</RelativeLayout>

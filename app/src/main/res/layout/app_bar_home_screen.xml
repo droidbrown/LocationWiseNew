@@ -73,5 +73,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_home_screen" />
-
+    <include
+        android:visibility="invisible"
+        layout="@layout/activity_home_video_bottomsheet"></include>
 </android.support.design.widget.CoordinatorLayout>

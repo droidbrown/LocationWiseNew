@@ -19,9 +19,10 @@
         </android.support.v4.view.ViewPager>
 
         <ImageView
+
             android:id="@+id/cross"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_gravity="start|top"
             android:background="?attr/selectableItemBackground"
             android:src="@drawable/ic_cross_icon" />
@@ -32,12 +33,12 @@
             android:layout_height="80dp"
             android:layout_gravity="end|top"
             android:background="?attr/selectableItemBackground"
-            android:visibility="gone" />
+             />
 
         <ImageView
             android:id="@+id/back"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_gravity="start|center"
             android:background="?attr/selectableItemBackground"
             android:src="@drawable/back" />
@@ -45,7 +46,7 @@
         <ImageView
             android:id="@+id/next"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_gravity="end|center"
             android:background="?attr/selectableItemBackground"
             android:src="@drawable/next" />
@@ -58,7 +59,7 @@
             <ImageView
                 android:id="@+id/edit"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_above="@+id/ll_bottontext"
                 android:layout_alignParentLeft="true"
                 android:background="?attr/selectableItemBackground"
@@ -67,7 +68,7 @@
             <ImageView
                 android:id="@+id/save"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_above="@+id/ll_bottontext"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="end|bottom"

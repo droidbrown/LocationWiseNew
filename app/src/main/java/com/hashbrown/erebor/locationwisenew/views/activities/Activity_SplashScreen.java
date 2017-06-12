@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.hashbrown.erebor.locationwisenew.R;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +28,7 @@ import java.util.Map;
 
 public class Activity_SplashScreen extends Activity {
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,33 +37,30 @@ public class Activity_SplashScreen extends Activity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
 
+        Prefs.putString("comingFrom", "splash");
+        deleteBackupForloc_mid();
+        deleteBackupForbichooser();
+        delete_vid();
         checkGPS();
-
-        Prefs.putString("comingFrom","splash");
 
 
     }
 
 
-
-    private  boolean checkAndRequestPermissions()
-    {
+    private boolean checkAndRequestPermissions() {
         int locationPermission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
 
         List<String> listPermissionsNeeded = new ArrayList<>();
-        if (locationPermission != PackageManager.PERMISSION_GRANTED)
-        {
+        if (locationPermission != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.ACCESS_FINE_LOCATION);
-        }
-        else
-        {
+        } else {
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
 
-                    Intent i=new Intent(Activity_SplashScreen.this,Activity_HomeScreen.class);
+                    Intent i = new Intent(Activity_SplashScreen.this, Activity_HomeScreen.class);
 
                     startActivity(i);
                     finish();
@@ -69,20 +69,19 @@ public class Activity_SplashScreen extends Activity {
             }, 2000);
         }
 
-        if (!listPermissionsNeeded.isEmpty())
-        {
-            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),REQUEST_ID_MULTIPLE_PERMISSIONS);
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
             return false;
         }
         return true;
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         Log.d("", "Permission callback called-------");
         switch (requestCode) {
-            case REQUEST_ID_MULTIPLE_PERMISSIONS:
-                {
+            case REQUEST_ID_MULTIPLE_PERMISSIONS: {
 
                 Map<String, Integer> perms = new HashMap<>();
                 // Initialize the map with both permissions
@@ -90,30 +89,27 @@ public class Activity_SplashScreen extends Activity {
 
                 // Fill with actual results from user
                 if (grantResults.length > 0) {
-                    for (int i = 0; i < permissions.length; i++) perms.put(permissions[i], grantResults[i]);
+                    for (int i = 0; i < permissions.length; i++)
+                        perms.put(permissions[i], grantResults[i]);
 
-                    if (perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-                    {
+                    if (perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
                         final Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
 
-                                    Intent i=new Intent(Activity_SplashScreen.this,Activity_HomeScreen.class);
+                                Intent i = new Intent(Activity_SplashScreen.this, Activity_HomeScreen.class);
 
-                                    startActivity(i);
-                                    finish();
+                                startActivity(i);
+                                finish();
 
                             }
                         }, 2000);
-                    }
-                    else
-                        {
+                    } else {
                         Log.d("", "Some permissions are not granted ask again ");
 
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION))
-                        {
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                             showDialogOK("SMS and Location Services Permission required for this app",
                                     new DialogInterface.OnClickListener() {
                                         @Override
@@ -140,6 +136,7 @@ public class Activity_SplashScreen extends Activity {
             }
         }
     }
+
     private void showDialogOK(String message, DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(this)
                 .setMessage(message)
@@ -150,16 +147,13 @@ public class Activity_SplashScreen extends Activity {
     }
 
 
-    public void checkGPS()
-    {
+    public void checkGPS() {
 
         final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) )
-        {
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             AlertDialog.Builder builder;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 builder = new AlertDialog.Builder(Activity_SplashScreen.this, android.R.style.Theme_Material_Dialog_Alert);
             } else {
                 builder = new AlertDialog.Builder(Activity_SplashScreen.this);
@@ -169,7 +163,7 @@ public class Activity_SplashScreen extends Activity {
                     .setMessage("Your GPS seems to be disabled, do you want to enable it?")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS),15);
+                            startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), 15);
 
                         }
                     })
@@ -181,9 +175,7 @@ public class Activity_SplashScreen extends Activity {
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
-        }
-        else
-        {
+        } else {
             checkAndRequestPermissions();
 
         }
@@ -193,14 +185,42 @@ public class Activity_SplashScreen extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==15)
-        {
+        if (resultCode == 15) {
             checkAndRequestPermissions();
 
-        }
-        else
-        {
+        } else {
             checkGPS();
+        }
+    }
+
+    private void deleteBackupForloc_mid() {
+        File dir = new File(Environment.getExternalStorageDirectory() + "/tmploc");
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                new File(dir, children[i]).delete();
+            }
+        }
+    }
+
+    private void deleteBackupForbichooser() {
+        File dir = new File(Environment.getExternalStorageDirectory() + "/bichooser");
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                new File(dir, children[i]).delete();
+            }
+        }
+    }
+
+    private void delete_vid()
+    {
+        File dir = new File(Environment.getExternalStorageDirectory() + "/tmploc");
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                new File(dir, children[i]).delete();
+            }
         }
     }
 }
