@@ -15,9 +15,11 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,7 +63,10 @@ public class FragmentVideo_New extends Fragment implements OnTrimVideoListener{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fragment_video_new,container,false);
         ButterKnife.bind(this,v);
-
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        getActivity().getWindow().addFlags(
+                WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         createFolder();
         //path
         path=this.getArguments().getString("path");
