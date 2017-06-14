@@ -17,6 +17,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.hashbrown.erebor.locationwisenew.R;
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -33,7 +34,8 @@ public class Activity_SplashScreen extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+       // FirebaseCrash.report(new Exception("My first Android non-fatal error"));
+        //FirebaseCrash.log("Activity created");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
 
