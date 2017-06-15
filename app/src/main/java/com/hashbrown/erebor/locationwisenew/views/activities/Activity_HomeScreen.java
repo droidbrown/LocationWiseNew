@@ -101,6 +101,21 @@ public class Activity_HomeScreen extends AppCompatActivity
     DrawerLayout drawer;
     List<Address> addresses = null;
     TextView shoot,browse,close;
+    public void hideStatusBar()
+    {
+        View decorView = getWindow().getDecorView();
+        // Hide the status bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        decorView.setSystemUiVisibility(uiOptions);
+    }
+
+    public void showStatusBar()
+    {
+        View decorView = getWindow().getDecorView();
+        // Hide the status bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_VISIBLE;
+        decorView.setSystemUiVisibility(uiOptions);
+    }
     @Override
 
     protected void onCreate(Bundle savedInstanceState)
@@ -247,10 +262,10 @@ public class Activity_HomeScreen extends AppCompatActivity
 
 
             } else {
-                deleteBackupForloc_mid();
-                deleteBackupForbichooser();
-                deleteBackupFromImage_watermark();
-                del_vid();
+                AppUtils.deleteBackupForloc_mid();
+                AppUtils.deleteBackupForbichooser();
+                AppUtils.deleteBackupFromImage_watermark();
+                AppUtils.delete_vid();
                 finish();
 
 
@@ -262,10 +277,10 @@ public class Activity_HomeScreen extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        deleteBackupForloc_mid();
-        deleteBackupForbichooser();
-        deleteBackupFromImage_watermark();
-        del_vid();
+        AppUtils.deleteBackupForloc_mid();
+        AppUtils.deleteBackupForbichooser();
+        AppUtils.deleteBackupFromImage_watermark();
+        AppUtils.delete_vid();
 
     }
 
@@ -621,62 +636,6 @@ public class Activity_HomeScreen extends AppCompatActivity
                 .setNegativeButton("Cancel", okListener)
                 .create()
                 .show();
-    }
-
-    //delete
-
-    private void del_vid()
-    {
-
-            File dir = new File(Environment.getExternalStorageDirectory() + "/tmploc");
-            if (dir.isDirectory()) {
-                String[] children = dir.list();
-                for (int i = 0; i < children.length; i++) {
-                    new File(dir, children[i]).delete();
-                }
-            }
-
-    }
-    private void deleteBackupFromImage_watermark() {
-
-        try {
-
-
-
-            File fichero = new File(Prefs.getString("watermark",""));
-            File carpeta = fichero.getParentFile();
-            for (File file : carpeta.listFiles()) {
-                file.delete();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
-    }
-
-    private void deleteBackupForloc_mid()
-    {
-        File dir = new File(Environment.getExternalStorageDirectory()+"/tmploc");
-        if (dir.isDirectory())
-        {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++)
-            {
-                new File(dir, children[i]).delete();
-            }
-        }
-    }
-    private void deleteBackupForbichooser()
-    {
-        File dir = new File(Environment.getExternalStorageDirectory()+"/bichooser");
-        if (dir.isDirectory())
-        {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++)
-            {
-                new File(dir, children[i]).delete();
-            }
-        }
     }
 
     @Override

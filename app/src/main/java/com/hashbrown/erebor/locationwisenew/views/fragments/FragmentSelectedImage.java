@@ -11,10 +11,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -104,11 +106,14 @@ public class FragmentSelectedImage extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_selected_image, container, false);
         ButterKnife.bind(this, v);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         db_locationwise = new db_locationwise(getActivity());
         paths = this.getArguments().getStringArrayList("paths");
         pd=new ProgressDialog(getActivity());
         pd.setMessage("Saving Image...");
-
+        getActivity().getWindow().addFlags(
+                WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //datetime
         DateFormat df = new SimpleDateFormat("HH:mm:ss a");
@@ -189,7 +194,7 @@ public class FragmentSelectedImage extends Fragment {
 
     public void createFolder() {
         //create a folder
-        path_to_folder = new File("/sdcard/LocationWise/Images");
+        path_to_folder = new File("/sdcard/LocationWise/LocationWiseImages");
 
         if (path_to_folder.exists()) {
             // Toast.makeText(this, "Alreday Exists", Toast.LENGTH_SHORT).show();
@@ -218,7 +223,7 @@ public class FragmentSelectedImage extends Fragment {
 
         //name with milli seconds
         long seconds = System.currentTimeMillis();
-        filename = "sdcard/LocationWise/Images/" + seconds + ".png";
+        filename = "sdcard/LocationWise/LocationWiseImages/" + seconds + ".png";
         path_to_file = new File(filename);
         if (path_to_file.exists()) {
             boolean delete = path_to_file.delete();
@@ -286,10 +291,10 @@ public class FragmentSelectedImage extends Fragment {
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
-        deleteBackupForloc_mid();
+        AppUtils.deleteBackupForloc_mid();
         deleteBackupFromImage();
-        deleteBackupFromImage_watermark();
-        deleteBackupForbichooser();
+        AppUtils.deleteBackupFromImage_watermark();
+        AppUtils.deleteBackupForbichooser();
     }
 
     public void onEventMainThread(MessageEvent messageEvent) {
@@ -344,7 +349,7 @@ public class FragmentSelectedImage extends Fragment {
                     }
                      Prefs.putString("watermark","");
                      deleteBackupFromImage();
-                     deleteBackupFromImage_watermark();
+                    AppUtils.deleteBackupFromImage_watermark();
                 }
         }
 
@@ -372,19 +377,6 @@ public class FragmentSelectedImage extends Fragment {
         }
     }
 
-    private void deleteBackupFromImage_watermark() {
-
-        try {
-            File fichero = new File(Prefs.getString("watermark",""));
-            File carpeta = fichero.getParentFile();
-            for (File file : carpeta.listFiles()) {
-                file.delete();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
-    }
     public void setAddress()
     {
         if(addresses!=null)
@@ -424,30 +416,7 @@ public class FragmentSelectedImage extends Fragment {
             }
     }
 
-    private void deleteBackupForloc_mid()
-    {
-        File dir = new File(Environment.getExternalStorageDirectory()+"/tmploc");
-        if (dir.isDirectory())
-        {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++)
-            {
-                new File(dir, children[i]).delete();
-            }
-        }
-    }
-    private void deleteBackupForbichooser()
-    {
-        File dir = new File(Environment.getExternalStorageDirectory()+"/bichooser");
-        if (dir.isDirectory())
-        {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++)
-            {
-                new File(dir, children[i]).delete();
-            }
-        }
-    }
+
 
 }
 

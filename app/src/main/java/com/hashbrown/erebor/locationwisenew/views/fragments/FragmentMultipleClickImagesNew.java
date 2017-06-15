@@ -27,6 +27,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
@@ -35,6 +36,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -124,6 +126,10 @@ public class FragmentMultipleClickImagesNew extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragmnet_multiple_click_images_new, container, false);
         ButterKnife.bind(this, v);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        getActivity().getWindow().addFlags(
+                WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         assert textureView != null;
         textureView.setSurfaceTextureListener(textureListener);
         // count.setText(String.valueOf(i));
@@ -347,7 +353,11 @@ public class FragmentMultipleClickImagesNew extends Fragment {
                             done.setVisibility(View.VISIBLE);
                             i = i + 1;
                             count_number.setText(String.valueOf(i));
-                            Glide.with(getActivity()).load(Uri.fromFile(new File(filename))).dontAnimate().into(count);
+                            try {
+                                Glide.with(getActivity()).load(Uri.fromFile(new File(filename))).dontAnimate().into(count);
+                            }
+                            catch (Exception e)
+                            {}
                         }
                     });
 
@@ -487,7 +497,7 @@ public class FragmentMultipleClickImagesNew extends Fragment {
 
     public void createFolder(byte[] bytes) throws IOException {
         //create a folder
-        File path_to_folder = new File("/sdcard/tmploc");
+        File path_to_folder = new File("/sdcard/LocationWise/tmploc");
 
         if (path_to_folder.exists()) {
             // Toast.makeText(this, "Alreday Exists", Toast.LENGTH_SHORT).show();
@@ -511,7 +521,7 @@ public class FragmentMultipleClickImagesNew extends Fragment {
 
         //name with milli seconds
         long seconds = System.currentTimeMillis();
-        filename = "sdcard/tmploc/" + seconds + ".png";
+        filename = "sdcard/LocationWise/tmploc/" + seconds + ".png";
         filenames.add(filename);
         File path_to_file = new File(filename);
         if (path_to_file.exists()) {

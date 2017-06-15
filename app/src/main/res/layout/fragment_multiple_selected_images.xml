@@ -22,15 +22,15 @@
 
             android:id="@+id/cross"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:layout_gravity="start|top"
             android:background="?attr/selectableItemBackground"
             android:src="@drawable/ic_cross_icon" />
 
         <ImageView
             android:id="@+id/watermark_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_gravity="end|top"
             android:background="?attr/selectableItemBackground"
              />
@@ -59,7 +59,7 @@
             <ImageView
                 android:id="@+id/edit"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:layout_above="@+id/ll_bottontext"
                 android:layout_alignParentLeft="true"
                 android:background="?attr/selectableItemBackground"
@@ -68,7 +68,7 @@
             <ImageView
                 android:id="@+id/save"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:layout_above="@+id/ll_bottontext"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="end|bottom"

@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -114,7 +116,10 @@ public class FragmentMultipleSelectedImages extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_multiple_selected_images, container, false);
         ButterKnife.bind(this, v);
-
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        getActivity().getWindow().addFlags(
+                WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //database
         db_locationwise = new db_locationwise(getActivity());
 
@@ -213,15 +218,15 @@ public class FragmentMultipleSelectedImages extends Fragment {
             // fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             fts.commit();
             deleteBackupFromImage();
-            deleteBackupFromImage_watermark();
-            deleteBackupForbichooser();
-            deleteBackupForloc_mid();
+            AppUtils.deleteBackupFromImage_watermark();
+            AppUtils.deleteBackupForbichooser();
+            AppUtils.deleteBackupForloc_mid();
         } else {
             getActivity().finish();
             deleteBackupFromImage();
-            deleteBackupFromImage_watermark();
-            deleteBackupForbichooser();
-            deleteBackupForloc_mid();
+            AppUtils.deleteBackupFromImage_watermark();
+            AppUtils.deleteBackupForbichooser();
+            AppUtils.deleteBackupForloc_mid();
         }
 
     }
@@ -302,7 +307,7 @@ public class FragmentMultipleSelectedImages extends Fragment {
 
     public void createFolder() {
         //create a folder
-        path_to_folder = new File("/sdcard/LocationWise/Images");
+        path_to_folder = new File("/sdcard/LocationWise/LocationWiseImages");
 
         if (path_to_folder.exists()) {
             // Toast.makeText(this, "Alreday Exists", Toast.LENGTH_SHORT).show();
@@ -331,7 +336,7 @@ public class FragmentMultipleSelectedImages extends Fragment {
 
         //name with milli seconds
         long seconds = System.currentTimeMillis();
-        filename = "sdcard/LocationWise/Images/" + seconds + ".png";
+        filename = "sdcard/LocationWise/LocationWiseImages/" + seconds + ".png";
         path_to_file = new File(filename);
         if (path_to_file.exists()) {
             boolean delete = path_to_file.delete();
@@ -488,9 +493,9 @@ public class FragmentMultipleSelectedImages extends Fragment {
             EventBus.getDefault().unregister(this);
         }
         deleteBackupFromImage();
-        deleteBackupFromImage_watermark();
-        deleteBackupForbichooser();
-        deleteBackupForloc_mid();
+        AppUtils.deleteBackupFromImage_watermark();
+        AppUtils.deleteBackupForbichooser();
+        AppUtils.deleteBackupForloc_mid();
 
     }
 
@@ -506,43 +511,7 @@ public class FragmentMultipleSelectedImages extends Fragment {
             EventBus.getDefault().removeStickyEvent(messageEvent);
         }
     }
-    private void deleteBackupFromImage_watermark() {
 
-        try {
-            File fichero = new File(Prefs.getString("watermark",""));
-            File carpeta = fichero.getParentFile();
-            for (File file : carpeta.listFiles()) {
-                file.delete();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
-    }
-    private void deleteBackupForloc_mid()
-    {
-        File dir = new File(Environment.getExternalStorageDirectory()+"/tmploc");
-        if (dir.isDirectory())
-        {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++)
-            {
-                new File(dir, children[i]).delete();
-            }
-        }
-    }
-    private void deleteBackupForbichooser()
-    {
-        File dir = new File(Environment.getExternalStorageDirectory()+"/bichooser");
-        if (dir.isDirectory())
-        {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++)
-            {
-                new File(dir, children[i]).delete();
-            }
-        }
-    }
     private void deleteBackupFromImage() {
 
         try {

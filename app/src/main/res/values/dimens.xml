@@ -20,4 +20,7 @@
     <dimen name="padding_5dp">5dp</dimen>
     <dimen name="margin_10_dp">10dp</dimen>
     <dimen name="padding_10_dp">10dp</dimen>
+    <dimen name="size_2_dp">2dp</dimen>
+    <dimen name="margin_20_dp">20dp</dimen>
+    <dimen name="margin_50_dp">50dp</dimen>
 </resources>

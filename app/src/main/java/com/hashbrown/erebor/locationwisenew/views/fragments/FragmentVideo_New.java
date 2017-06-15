@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -79,12 +80,20 @@ public class FragmentVideo_New extends Fragment implements OnTrimVideoListener{
 
 
            if (mVideoTrimmer != null) {
-            mVideoTrimmer.setMaxDuration(10);
-            mVideoTrimmer.setOnTrimVideoListener(this);
+               File file=new File(path);
+               MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+             //use one of overloaded setDataSource() functions to set your data source
+               retriever.setDataSource(getActivity(), Uri.fromFile(file));
+               String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+               int timeInMillisec = Integer.parseInt(time );
+
+               retriever.release();
+               mVideoTrimmer.setOnTrimVideoListener(this);
          //   mVideoTrimmer.setOnK4LVideoListener(this);
-            mVideoTrimmer.setDestinationPath("/sdcard/tmploc/");
+            mVideoTrimmer.setDestinationPath("/sdcard/LocationWise/tmploc/");
             mVideoTrimmer.setVideoURI(Uri.parse(path));
          //   mVideoTrimmer.setVideoInformationVisibility(true);
+               mVideoTrimmer.setMaxDuration(timeInMillisec);
 
         }
 
@@ -197,7 +206,7 @@ String p="";
     }
     public void createFolder() {
         //create a folder
-       File path_to_folder = new File("/sdcard/tmploc");
+       File path_to_folder = new File("/sdcard/LocationWise/tmploc");
 
         if (path_to_folder.exists()) {
             // Toast.makeText(this, "Alreday Exists", Toast.LENGTH_SHORT).show();

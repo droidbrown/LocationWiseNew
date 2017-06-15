@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -66,7 +68,10 @@ public class FragmentMultipleClickImagesOld extends Fragment
 
         //bind views
         ButterKnife.bind(this,v);
-
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        getActivity().getWindow().addFlags(
+                WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         count_number.setText(String.valueOf(i));
         try
         {
@@ -184,7 +189,7 @@ public class FragmentMultipleClickImagesOld extends Fragment
     //for saving
     public void createFolder(byte[] bytes) throws IOException {
         //create a folder
-        File path_to_folder = new File("/sdcard/tmploc");
+        File path_to_folder = new File("/sdcard/LocationWise/tmploc");
 
         if (path_to_folder.exists()) {
             // Toast.makeText(this, "Alreday Exists", Toast.LENGTH_SHORT).show();
@@ -207,7 +212,7 @@ public class FragmentMultipleClickImagesOld extends Fragment
 
         //name with milli seconds
         long seconds = System.currentTimeMillis();
-        filename = "sdcard/tmploc/" + seconds + ".png";
+        filename = "sdcard/LocationWise/tmploc/" + seconds + ".png";
         filenames.add(filename);
         File path_to_file = new File(filename);
         if (path_to_file.exists()) {

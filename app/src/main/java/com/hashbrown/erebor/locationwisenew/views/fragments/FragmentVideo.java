@@ -2,40 +2,35 @@ package com.hashbrown.erebor.locationwisenew.views.fragments;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
-import android.hardware.display.DisplayManager;
-import android.hardware.display.VirtualDisplay;
+import android.graphics.Matrix;
 import android.location.Address;
 import android.media.MediaPlayer;
-import android.media.MediaRecorder;
-import android.media.projection.MediaProjection;
-import android.media.projection.MediaProjectionManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.SparseIntArray;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.MediaController;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
-
 import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg;
 import com.github.hiteshsondhi88.libffmpeg.LoadBinaryResponseHandler;
@@ -45,26 +40,29 @@ import com.hashbrown.erebor.locationwisenew.R;
 import com.hashbrown.erebor.locationwisenew.utils.AppUtils;
 import com.hashbrown.erebor.locationwisenew.utils.MessageEvent;
 import com.hashbrown.erebor.locationwisenew.views.activities.Activity_EditDetails;
+import com.hashbrown.erebor.locationwisenew.views.activities.Activity_HomeScreen;
 import com.pixplicity.easyprefs.library.Prefs;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTouch;
 import de.greenrobot.event.EventBus;
-import wseemann.media.FFmpegMediaMetadataRetriever;
 
-import static android.app.Activity.RESULT_OK;
+import static android.view.View.DRAWING_CACHE_QUALITY_HIGH;
 import static com.drivemode.android.typeface.TypefaceHelper.TAG;
-import static com.hashbrown.erebor.locationwisenew.BuildConfig.DEBUG;
 import static com.hashbrown.erebor.locationwisenew.utils.AppUtils.getLocationData;
+import static java.util.Calendar.getAvailableLocales;
 import static java.util.Calendar.getInstance;
 
 /**
@@ -89,10 +87,23 @@ public class FragmentVideo extends Fragment {
     TextView text;
     @BindView(R.id.watermark_image)
     ImageView watermark;
+/*    @BindView(R.id.lefttap)
+    LinearLayout left_tap;
+    @BindView(R.id.righttap)
+    LinearLayout right_tap;*/
+
+    @BindView(R.id.ll_bottontext)
+    LinearLayout ll_bottontext;
+
+
     Double latitude, longitude;
     List<Address> addresses;
     String address, city, state, country, postalCode, knownName, date, time, coordinates;
     int position;
+    boolean touch=false;
+    String path, orientation;
+    View v = null;
+    int duration;
     public static FragmentVideo newInstance(String pth, String orientation) {
 
         Bundle args = new Bundle();
@@ -102,18 +113,17 @@ public class FragmentVideo extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
-
-    String path, orientation;
-    View v = null;
-
+    int heightDevice,widthDevice;
+    int heightVideo,widthVideo;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //path
+
+
+        //path and settting orientation
         path = this.getArguments().getString("path");
         orientation = this.getArguments().getString("orientation");
-        if (orientation.equals("horizontal")) {
+        if (orientation.equals("horizontal") ) {
             Activity a = getActivity();
             if (a != null)
                 a.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -125,17 +135,50 @@ public class FragmentVideo extends Fragment {
             v = inflater.inflate(R.layout.fragment_video, container, false);
 
         }
-
+        //bind knife
         ButterKnife.bind(this, v);
 
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M)
+        {
+            text.setTextSize(8);
+            text.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            text.setDrawingCacheEnabled(true);
+        }
+        text.setDrawingCacheEnabled(true);
 
+
+       // ((Activity_HomeScreen)getActivity()).hideStatusBar();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        heightDevice = displayMetrics.heightPixels;
+        widthDevice= displayMetrics.widthPixels;
+
+        // video initial settigs
         video.setVideoPath(path);
         video.start();
+        show();
 
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                hide();
+                touch=true;
+            }
+        }, 100);
+
+        //listeners
         video.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
+
+                show();
+                video.setVideoPath(path);
                 playpauseButton.setImageResource(R.drawable.play);
+
             }
         });
 
@@ -170,32 +213,233 @@ public class FragmentVideo extends Fragment {
             }
         });
 
+        //video listeners
+        video.setOnPreparedListener(new MediaPlayer.OnPreparedListener()  {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                 duration = video.getDuration();
+              widthVideo=  video.getWidth();
+                heightVideo = video.getHeight();
+            }
+        });
 
+        //video listeners
         video.setOnTouchListener(new View.OnTouchListener()
         {
             @Override
             public boolean onTouch(View v, MotionEvent motionEvent)
             {
-                if (video.isPlaying())
-                {
-                    video.pause();
-                    playpauseButton.setImageResource(R.drawable.play);
-                    position = video.getCurrentPosition();
-                    return false;
-                }
-                else
-                {
-                    video.start();
-                    playpauseButton.setImageResource(R.drawable.pause);
-                    video.seekTo(position);
-                    video.start();
-                    return false;
-                }
+
+                    if (touch==true) {
+                        show();
+                        touch = false;
+                        return false;
+                    } else {
+                        hide();
+                        touch = true;
+                        return false;
+                    }
+
+
             }
         });
+
+        //tap events for left and right views
+  /*      left_tap.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return left_gesture.onTouchEvent(event);
+
+            }
+        });
+
+        right_tap.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return right_gesture.onTouchEvent(event);
+
+            }
+        });*/
         return v;
     }
 
+
+    @OnClick(R.id.controlbutton)
+    void onControl() {
+        if (video.isPlaying())
+        {
+            video.pause();
+            playpauseButton.setImageResource(R.drawable.play);
+            position = video.getCurrentPosition();
+
+
+        }
+        else
+        {
+            playpauseButton.setImageResource(R.drawable.pause);
+            video.seekTo(position);
+            video.start();
+
+        }
+    }
+    public void show()
+    {
+       //getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+       // ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        edit.setVisibility(View.VISIBLE);
+        save.setVisibility(View.VISIBLE);
+        cross.setVisibility(View.VISIBLE);
+        aSwitch.setVisibility(View.VISIBLE);
+        playpauseButton.setVisibility(View.VISIBLE);
+    }
+    public void hide()
+    {
+
+
+       // ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        edit.setVisibility(View.INVISIBLE);
+        save.setVisibility(View.INVISIBLE);
+        cross.setVisibility(View.INVISIBLE);
+        playpauseButton.setVisibility(View.INVISIBLE);
+        aSwitch.setVisibility(View.INVISIBLE);
+
+    }
+
+
+
+    @OnClick(R.id.edit)
+    void onEdit() {
+        video.pause();
+        Intent i = new Intent(getActivity(), Activity_EditDetails.class);
+        getActivity().startActivity(i);
+        getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+    }
+
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().registerSticky(this);
+        }
+
+    }
+
+
+    public void forward()
+    {
+
+        // 5 seconds.
+        int SUBTRACT_TIME = 5000;
+        position = video.getCurrentPosition();
+        if(position - SUBTRACT_TIME > 0 )  {
+           video.seekTo(position - SUBTRACT_TIME);
+        }
+    }
+
+    public void backward()
+    {
+
+        // 5 seconds.
+        int ADD_TIME = 5000;
+        position = video.getCurrentPosition();
+        if(position + ADD_TIME < duration)  {
+            video.seekTo(position + ADD_TIME);
+        }
+    }
+
+
+    final GestureDetector left_gesture = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener(){
+
+
+        //here is the method for double tap
+
+
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+
+            Toast.makeText(getActivity(), "Double tap on left", Toast.LENGTH_SHORT).show();
+       backward();
+
+            return true;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+            super.onLongPress(e);
+
+        }
+
+        @Override
+        public boolean onDoubleTapEvent(MotionEvent e) {
+            return true;
+        }
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return true;
+        }
+
+
+    });
+
+    final GestureDetector right_gesture = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener(){
+
+
+        //here is the method for double tap
+
+
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+
+            Toast.makeText(getActivity(), "double tap at right", Toast.LENGTH_SHORT).show();
+            forward();
+            return true;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+            super.onLongPress(e);
+
+        }
+
+        @Override
+        public boolean onDoubleTapEvent(MotionEvent e) {
+            return true;
+        }
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return true;
+        }
+
+
+    });
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+        //destroyMediaProjection();
+    }
+
+    public void onEventMainThread(MessageEvent messageEvent) {
+
+        if (messageEvent.message.contains("datetime")) {
+            video.start();
+            latitude = Prefs.getDouble("lat", 0);
+            longitude = Prefs.getDouble("long", 0);
+            addresses = getLocationData(getActivity(), latitude, longitude);
+            setAddress();
+            AppUtils.loadImage(watermark, Prefs.getString("watermark", ""), getActivity());
+            EventBus.getDefault().removeStickyEvent(messageEvent);
+        }
+    }
     public void setAddress() {
         if (addresses != null)
             if (addresses.size() > 0) {
@@ -228,55 +472,13 @@ public class FragmentVideo extends Fragment {
                 coordinates = AppUtils.convert(latitude, longitude);
                 Prefs.putString("address", address + city + state + country + postalCode);
                 text.setText(Prefs.getString("time", "") + " | " + Prefs.getString("date", "") + " |\n" + latitude + " " + longitude + " | " + coordinates + " |\n" + Prefs.getString("address", ""));
-                text.setDrawingCacheEnabled(true);
+
             }
     }
 
-
-    @OnClick(R.id.edit)
-    void onEdit() {
-        video.pause();
-        Intent i = new Intent(getActivity(), Activity_EditDetails.class);
-        getActivity().startActivity(i);
-        getActivity().overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().registerSticky(this);
-        }
-
-    }
-
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this);
-        }
-        //destroyMediaProjection();
-    }
-
-    public void onEventMainThread(MessageEvent messageEvent) {
-
-        if (messageEvent.message.contains("datetime")) {
-            video.start();
-            latitude = Prefs.getDouble("lat", 0);
-            longitude = Prefs.getDouble("long", 0);
-            addresses = getLocationData(getActivity(), latitude, longitude);
-            setAddress();
-            AppUtils.loadImage(watermark, Prefs.getString("watermark", ""), getActivity());
-            EventBus.getDefault().removeStickyEvent(messageEvent);
-        }
-    }
-
-
     @OnClick(R.id.cross)
     void oncancel() {
-        File dir = new File(Environment.getExternalStorageDirectory() + "/tmploc");
+        File dir = new File(Environment.getExternalStorageDirectory() + "/LocationWise/tmploc");
         if (dir.isDirectory()) {
             String[] children = dir.list();
             for (int i = 0; i < children.length; i++) {
@@ -289,48 +491,45 @@ public class FragmentVideo extends Fragment {
         fts.commit();
     }
 
-    @OnClick(R.id.controlbutton)
-    void onControl() {
-        if (video.isPlaying()) {
-            video.pause();
-            playpauseButton.setImageResource(R.drawable.play);
-        } else {
-            video.start();
-            playpauseButton.setImageResource(R.drawable.pause);
-        }
-    }
+
 
 
     @OnClick(R.id.save)
     void onSave() {
+        video.pause();
         edit.setVisibility(View.INVISIBLE);
-
         aSwitch.setVisibility(View.INVISIBLE);
         save.setVisibility(View.INVISIBLE);
+        //output file name
+        createFolder();
+        long seconds = System.currentTimeMillis();
+        String output_filename = "sdcard/LocationWise/LocationWiseVideos/" + seconds + ".mp4";
 
         //for converting video to audio
         // String[] complexCommand = {"-y", "-i", path, "-vn", "-ar", "44100", "-ac", "2", "-b:a", "256k", "-f", "mp3", "sdcard/loc_video/track.mp3"};
-
         Bitmap b = text.getDrawingCache();
+
         try {
-            b.compress(Bitmap.CompressFormat.PNG, 100, new FileOutputStream("/sdcard/tmploc/test.png"));
+            b.compress(Bitmap.CompressFormat.PNG, 100, new FileOutputStream("/sdcard/LocationWise/tmploc/test.png"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        String[] cmd=null;
+        //final command
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+
+            cmd = new String[]{"-i", path, "-i", "sdcard/LocationWise/tmploc/test.png","-preset","ultrafast","-filter_complex","overlay=0:main_h-overlay_h", output_filename};
+
+        }
+        else
+        {
+
+        cmd = new String[]{"-i", path, "-i", "sdcard/LocationWise/tmploc/test.png","-preset","ultrafast","-filter_complex","overlay=(main_w-overlay_w)/2:main_h-overlay_h", output_filename};
+
+        }
 
 
-       //output file name
-        createFolder();
-        long seconds = System.currentTimeMillis();
-        String output_filename = "sdcard/LocationWise/Videos/" + seconds + ".mp4";
 
-
-        //command running problem with alignment of text
-        String[] cmd = new String[]{"-i", path, "-i", "sdcard/tmploc/test.png","-preset","ultrafast","-filter_complex","overlay=(main_w-overlay_w)/2:main_h-overlay_h", output_filename};
-
-
-        //working ok
-       // String[] cmd = new String[]{"-i", path, "-i", "sdcard/loc_video/test.png","-preset","ultrafast","-framerate","30000/1001","-loop","1", "-filter_complex", "overlay=(main_w-overlay_w)/2:main_h-overlay_h", "sdcard/loc_video/output.mp4"};
 
 
 
@@ -339,8 +538,10 @@ public class FragmentVideo extends Fragment {
         execFFmpegBinary(cmd);
 
 
-    }
+        b.recycle();
 
+
+    }
 
     FFmpeg ffmpeg;
     ProgressDialog pd;
@@ -386,18 +587,49 @@ public class FragmentVideo extends Fragment {
 
                 @Override
                 public void onSuccess(String s) {
-                    Toast.makeText(getActivity(), "success", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Saved In Gallery", Toast.LENGTH_SHORT).show();
+
                     if (pd.isShowing()) {
                         pd.hide();
                     }
+                    FragmentHomeScreen fragment = FragmentHomeScreen.newInstance();
+                    FragmentTransaction fts = getActivity().getSupportFragmentManager().beginTransaction();
+                    fts.replace(R.id.home_coordinate, fragment);
+                    fts.commit();
 
                 }
 
 
                 @Override
                 public void onProgress(String s) {
+                    Log.d(TAG, "Started command : ffmpeg " + Arrays.toString(command));
+                    Log.d(TAG, "progress : " + s);
+                    Pattern timePattern = Pattern.compile("(?<=time=)[\\d:.]*");
+                    Scanner sc = new Scanner(s);
 
-                    System.out.println("progress started " + "progress" + s);
+                    String match = sc.findWithinHorizon(timePattern, 0);
+                    if (match != null) {
+                        String[] matchSplit = match.split(":");
+                        if (duration != 0) {
+                            float progress = (Integer.parseInt(matchSplit[0]) * 3600 +
+                                    Integer.parseInt(matchSplit[1]) * 60 +
+                                    Float.parseFloat(matchSplit[2])) / duration;
+                            float showProgress = (progress * 100);
+                            Log.d(TAG, "=======PROGRESS======== " + showProgress);
+                            String numberD = String.valueOf(showProgress);
+                            numberD = numberD.substring ( numberD.indexOf ( "." ) );
+                            String upToNCharacters = numberD.substring(0, Math.min(numberD.length(), 4));
+                            upToNCharacters=upToNCharacters.replace(".","");
+                            upToNCharacters=upToNCharacters.replaceFirst("^0+(?!$)", "");
+                            int val=Integer.parseInt(upToNCharacters);
+                            pd.setProgress(val);
+
+
+                        }
+
+
+                    }
+
 
 
                 }
@@ -407,7 +639,10 @@ public class FragmentVideo extends Fragment {
                     if (pd == null) {
                         pd = new ProgressDialog(getActivity());
                         pd.setMessage("Processing Video...");
+                        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                        pd.setProgress(0);
                         pd.show();
+
                         pd.setCancelable(false);
                     } else {
                         pd.setCancelable(false);
@@ -419,10 +654,14 @@ public class FragmentVideo extends Fragment {
 
                 @Override
                 public void onFinish() {
-                    Toast.makeText(getActivity(), "finished", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getActivity(), "Saving Failed", Toast.LENGTH_SHORT).show();
                     if (pd.isShowing()) {
                         pd.hide();
                     }
+                    FragmentHomeScreen fragment = FragmentHomeScreen.newInstance();
+                    FragmentTransaction fts = getActivity().getSupportFragmentManager().beginTransaction();
+                    fts.replace(R.id.home_coordinate, fragment);
+                    fts.commit();
 
 
                 }
@@ -433,7 +672,7 @@ public class FragmentVideo extends Fragment {
     }
     public void createFolder() {
         //create a folder
-        File path_to_folder = new File("/sdcard/LocationWise/Videos");
+        File path_to_folder = new File("/sdcard/LocationWise/LocationWIseVideos");
 
         if (path_to_folder.exists()) {
             // Toast.makeText(this, "Alreday Exists", Toast.LENGTH_SHORT).show();

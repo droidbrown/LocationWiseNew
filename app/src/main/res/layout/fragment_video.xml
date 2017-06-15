@@ -12,35 +12,81 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <VideoView
-            android:layout_gravity="center"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/video"
-            />
+            android:layout_height="match_parent">
+            <VideoView
+                android:layout_centerInParent="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/video"
+                />
+            <ImageView
+                android:id="@+id/cross"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_gravity="start|top"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/ic_cross_icon" />
+            <ImageView
+                android:id="@+id/watermark_image"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="?attr/selectableItemBackground"
+                />
 
-        <ImageView
-            android:id="@+id/cross"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_gravity="start|top"
-            android:background="?attr/selectableItemBackground"
-            android:src="@drawable/ic_cross_icon" />
-        <ImageView
-            android:id="@+id/watermark_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="end|top"
-            android:background="?attr/selectableItemBackground"
-            />
+            <ImageView
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/controlbutton"
+                android:src="@drawable/pause"
+                />
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_below="@+id/cross"
+                android:orientation="horizontal"
+                android:id="@+id/lefttap"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/controlbutton"
+                >
+                <TextView
+                    android:visibility="invisible"
+                    android:id="@+id/lefttaptext"
+                    android:gravity="center"
+                    android:layout_marginLeft="@dimen/margin_10_dp"
+                    android:textColor="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="5 Seconds"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_below="@+id/watermark_image"
+                android:id="@+id/righttap"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/controlbutton"
+                >
+                <TextView
+                    android:visibility="invisible"
+                    android:id="@+id/righttaptext"
+                    android:gravity="center"
+                    android:layout_marginLeft="@dimen/margin_10_dp"
+                    android:textColor="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="5 Seconds"
+                    />
+            </LinearLayout>
+        </RelativeLayout>
 
-        <ImageView
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/controlbutton"
-            android:src="@drawable/pause"
-            />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,7 +95,7 @@
             <ImageView
                 android:id="@+id/edit"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:layout_above="@+id/ll_bottontext"
                 android:layout_alignParentLeft="true"
                 android:background="?attr/selectableItemBackground"
@@ -58,7 +104,7 @@
             <ImageView
                 android:id="@+id/save"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:layout_above="@+id/ll_bottontext"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="end|bottom"
@@ -82,19 +128,18 @@
                     android:layout_marginRight="@dimen/margin_10_dp"
                     android:drawablePadding="@dimen/padding_5dp"
                     android:shadowColor="@color/appcolor"
-
                     android:text="Layer"
                     android:textColor="@color/white"
-
                     android:theme="@style/Color1SwitchStyle" />
 
                 <TextView
+                    android:padding="@dimen/size_5_dp"
+                    android:textSize="@dimen/text_14_sp"
                     android:id="@+id/text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:background="@color/appcolor"
-                    android:padding="@dimen/size_5_dp"
                     android:textColor="@color/white" />
 
 

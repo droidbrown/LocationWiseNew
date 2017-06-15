@@ -105,7 +105,7 @@ public class Activity_SavedImages extends AppCompatActivity implements OnSavedCl
     }
     public void getFromSdcard()
     {
-        File file= new File(android.os.Environment.getExternalStorageDirectory(),"LocationWise/Images");
+        File file= new File(android.os.Environment.getExternalStorageDirectory(),"LocationWise/LocationWiseImages");
 
         if (file.isDirectory())
         {
@@ -156,7 +156,7 @@ public class Activity_SavedImages extends AppCompatActivity implements OnSavedCl
          position=pos;
         local_location=path.substring(path.lastIndexOf("/") + 1).trim();
         //  System.out.println("loc   "+loc);
-        local_location="sdcard/LocationWise/Images/"+local_location;
+        local_location="sdcard/LocationWise/LocationWiseImages/"+local_location;
         bottomSheetLayout.setVisibility(View.VISIBLE);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 

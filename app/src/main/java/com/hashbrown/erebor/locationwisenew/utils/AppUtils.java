@@ -8,11 +8,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -97,5 +99,73 @@ public class AppUtils {
     }
      public static final void loadImage(ImageView iv, final String path,Context context) {
          Glide.with(context).load(Uri.fromFile(new File(path))).dontAnimate().into(iv);
+    }
+
+
+
+
+    public static void deleteBackupForloc_mid() {
+
+        try{
+            File dir = new File(Environment.getExternalStorageDirectory() + "/LocationWise/tmploc");
+            if (dir.isDirectory()) {
+                String[] children = dir.list();
+                for (int i = 0; i < children.length; i++) {
+                    new File(dir, children[i]).delete();
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public static  void deleteBackupForbichooser() {
+
+        try{
+            File dir = new File(Environment.getExternalStorageDirectory() + "/bichooser");
+            if (dir.isDirectory()) {
+                String[] children = dir.list();
+                for (int i = 0; i < children.length; i++) {
+                    new File(dir, children[i]).delete();
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void delete_vid()
+    {
+
+        try{
+            File dir = new File(Environment.getExternalStorageDirectory() + "/LocationWise/tmploc");
+            if (dir.isDirectory()) {
+                String[] children = dir.list();
+                for (int i = 0; i < children.length; i++) {
+                    new File(dir, children[i]).delete();
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+    public static void deleteBackupFromImage_watermark() {
+
+        try {
+
+
+
+            File fichero = new File(Prefs.getString("watermark",""));
+            File carpeta = fichero.getParentFile();
+            for (File file : carpeta.listFiles()) {
+                file.delete();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
     }
 }

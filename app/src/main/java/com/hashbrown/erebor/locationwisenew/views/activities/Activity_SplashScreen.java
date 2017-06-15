@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.firebase.crash.FirebaseCrash;
 import com.hashbrown.erebor.locationwisenew.R;
+import com.hashbrown.erebor.locationwisenew.utils.AppUtils;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.File;
@@ -40,9 +41,9 @@ public class Activity_SplashScreen extends Activity {
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
 
         Prefs.putString("comingFrom", "splash");
-        deleteBackupForloc_mid();
-        deleteBackupForbichooser();
-        delete_vid();
+        AppUtils.deleteBackupForloc_mid();
+        AppUtils.deleteBackupForbichooser();
+        AppUtils.delete_vid();
         checkGPS();
 
 
@@ -195,34 +196,4 @@ public class Activity_SplashScreen extends Activity {
         }
     }
 
-    private void deleteBackupForloc_mid() {
-        File dir = new File(Environment.getExternalStorageDirectory() + "/tmploc");
-        if (dir.isDirectory()) {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                new File(dir, children[i]).delete();
-            }
-        }
-    }
-
-    private void deleteBackupForbichooser() {
-        File dir = new File(Environment.getExternalStorageDirectory() + "/bichooser");
-        if (dir.isDirectory()) {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                new File(dir, children[i]).delete();
-            }
-        }
-    }
-
-    private void delete_vid()
-    {
-        File dir = new File(Environment.getExternalStorageDirectory() + "/tmploc");
-        if (dir.isDirectory()) {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                new File(dir, children[i]).delete();
-            }
-        }
-    }
 }

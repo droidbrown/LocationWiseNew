@@ -16,10 +16,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -72,7 +74,6 @@ public class FragmentHomeScreen extends Fragment implements ImageChooserListener
     TextView takephoto_text;
     @BindView(R.id.browse_text)
     TextView browse_text;
-
     private boolean isActivityResultOver = false;
     public String type = "";
     private String originalFilePath;
@@ -80,8 +81,6 @@ public class FragmentHomeScreen extends Fragment implements ImageChooserListener
     private String thumbnailSmallFilePath;
     private int chooserType;
     private String filePath;
-    public static final int PERMISSION_GALLERY = 1;
-    public static final int PERMISSION_CAMERA = 2;
     public static final int MULTIPLE_PERMISSIONS = 1;
     ArrayList<String> multiple_images = new ArrayList<>();
     ArrayList<String> multiple_images_thumbnail = new ArrayList<>();
@@ -104,6 +103,10 @@ public class FragmentHomeScreen extends Fragment implements ImageChooserListener
         View v = inflater.inflate(R.layout.fragment_home_screen, container, false);
         Activity a = getActivity();
         if(a != null) a.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        getActivity().getWindow().addFlags(
+                WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         EventBus.getDefault().postSticky(new MessageEvent(constants.CLICK_SNAP));
         ButterKnife.bind(this, v);
         TypefaceHelper.getInstance().setTypeface(browse_text, getString(R.string.book));
