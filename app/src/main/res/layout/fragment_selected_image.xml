@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/black"
     android:clickable="true"
     android:layout_height="match_parent">
@@ -17,21 +18,61 @@
             android:background="?attr/selectableItemBackground"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_action_multiple" />
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/cross"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_gravity="start|top"
+        android:background="?attr/selectableItemBackground"
+        android:src="@drawable/ic_cross_icon" />
+    <ImageView
+        android:visibility="gone"
+        android:src="@drawable/ic_action_multiple"
+        android:id="@+id/watermark_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="?attr/selectableItemBackground"
+        />
+    <LinearLayout
+        android:visibility="gone"
+        android:background="@color/white"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp">
+
+            <TextView
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/distance_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_16_sp"
+                android:text="260 km"
+
+                />
 
         <ImageView
-            android:id="@+id/cross"
+            android:src="@drawable/location_distance"
+            android:id="@+id/distance_image"
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_gravity="start|top"
+            android:layout_height="40dp"
+            android:layout_below="@+id/watermark_image"
             android:background="?attr/selectableItemBackground"
-            android:src="@drawable/ic_cross_icon" />
-        <ImageView
-            android:id="@+id/watermark_image"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="end|top"
-            android:background="?attr/selectableItemBackground"
-             />
+            />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
+
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -74,10 +115,8 @@
                     android:layout_marginRight="@dimen/margin_10_dp"
                     android:drawablePadding="@dimen/padding_5dp"
                     android:shadowColor="@color/appcolor"
-
                     android:text="Layer"
                     android:textColor="@color/white"
-
                     android:theme="@style/Color1SwitchStyle" />
 
                 <TextView
