@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.drivemode.android.typeface.TypefaceHelper;
 import com.hashbrown.erebor.locationwisenew.R;
@@ -135,7 +136,8 @@ public class Activity_EditDetails extends AppCompatActivity implements DateTimeP
     @OnClick(R.id.save)
     void onsave()
     {
-/*save date and time*/
+       // Toast.makeText(this, "Distance In KM. "+Prefs.getDouble("distance",0), Toast.LENGTH_SHORT).show();
+        /*save date and time*/
         Prefs.putString("date",date);
         Prefs.putString("time",time);
         /*save address*/
@@ -272,6 +274,7 @@ public class Activity_EditDetails extends AppCompatActivity implements DateTimeP
 
             latitude= Prefs.getDouble("latMap",0);
             longitude=Prefs.getDouble("longMap",0);
+
 
             addresses=getLocationData();
             if(addresses.size()>0)
