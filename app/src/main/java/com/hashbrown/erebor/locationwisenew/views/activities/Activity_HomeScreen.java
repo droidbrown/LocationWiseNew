@@ -39,6 +39,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -120,6 +121,8 @@ public class Activity_HomeScreen extends AppCompatActivity
 
     protected void onCreate(Bundle savedInstanceState)
     {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
         ButterKnife.bind(this);
@@ -250,7 +253,12 @@ public class Activity_HomeScreen extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         }
 
-        else
+         else if(bottomSheetBehavior.getState()==BottomSheetBehavior.STATE_EXPANDED)
+        {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            bottomSheetLayout.setVisibility(View.INVISIBLE);
+        }
+          else
         {
             FragmentTransaction fts = this.getSupportFragmentManager().beginTransaction();
             FragmentManager fragmentManager = this.getSupportFragmentManager();
@@ -673,7 +681,7 @@ public class Activity_HomeScreen extends AppCompatActivity
             startActivityForResult(photoPickerIntent,1010);
         } else {
             Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
-            photoPickerIntent.setType("*/*");
+            photoPickerIntent.setType("video/*");
             startActivityForResult(photoPickerIntent, 1010);
         }
     }

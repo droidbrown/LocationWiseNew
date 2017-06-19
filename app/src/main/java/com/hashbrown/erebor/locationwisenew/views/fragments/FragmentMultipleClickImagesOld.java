@@ -64,14 +64,14 @@ public class FragmentMultipleClickImagesOld extends Fragment
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+
         View v=inflater.inflate(R.layout.fragment_multiple_click_old,container,false);
 
         //bind views
         ButterKnife.bind(this,v);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        getActivity().getWindow().addFlags(
-                WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         count_number.setText(String.valueOf(i));
         try
         {

@@ -1,17 +1,25 @@
 package com.hashbrown.erebor.locationwisenew.views.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +43,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +53,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
+import static com.hashbrown.erebor.locationwisenew.utils.AppUtils.getColor;
 import static com.hashbrown.erebor.locationwisenew.utils.AppUtils.getLocationData;
 import static java.util.Calendar.getInstance;
 
@@ -74,6 +84,9 @@ public class FragmentSelectedImage extends Fragment {
     Double latitude, longitude;
     List<Address> addresses;
     File path_to_folder;
+    @BindView(R.id.distance_text)
+    TextView distance_text;
+
     int name;
     String filename;
     boolean dir_success;
@@ -141,10 +154,16 @@ public class FragmentSelectedImage extends Fragment {
                 {
                     text.setBackgroundColor(AppUtils.getColor(getActivity(),R.color.appcolor));
 
+
+
                 }
                 else
                 {
                     text.setBackgroundColor(AppUtils.getColor(getActivity(),R.color.appcolor_transparent));
+
+
+
+
 
                 }
             }
@@ -152,8 +171,11 @@ public class FragmentSelectedImage extends Fragment {
 
 
 
+
         return v;
     }
+
+
 
 
 
@@ -213,13 +235,6 @@ public class FragmentSelectedImage extends Fragment {
     }
 
     public void manageFile() {
-        //name like 1.png
-        //name= Prefs.getInt("number",0);
-        // name=name+1;
-        //filename="sdcard/LocationWise/"+name+".png";
-        //path_to_file = new File(filename);
-        // Prefs.putInt("number",name);
-
 
         //name with milli seconds
         long seconds = System.currentTimeMillis();
@@ -305,7 +320,33 @@ public class FragmentSelectedImage extends Fragment {
             longitude = Prefs.getDouble("long", 0);
             addresses = getLocationData(getActivity(),latitude,longitude);
             setAddress();
-            AppUtils.loadImage(watermark,Prefs.getString("watermark",""),getActivity());
+            if(Prefs.getString("watermark","")!="")
+            {
+                watermark.setVisibility(View.VISIBLE);
+                AppUtils.loadImage(watermark,Prefs.getString("watermark",""),getActivity());
+
+            }
+            else
+            {
+                watermark.setVisibility(View.GONE);
+            }
+            if(Prefs.getDouble("distance",0)!=0)
+            {
+                distance_text.setVisibility(View.VISIBLE);
+
+
+//                //color for distance text
+//                int[] color = {AppUtils.getColor(getActivity(),R.color.white),Color.DKGRAY};
+//                float[] position = {0, 1};
+//                Shader.TileMode tile_mode = Shader.TileMode.REPEAT;
+//                LinearGradient lin_grad = new LinearGradient(0, 0, 0, 35,color,position, tile_mode);
+//                Shader shader_gradient = lin_grad;
+//                distance_text.getPaint().setShader(shader_gradient);
+
+                //value
+                double val=Prefs.getDouble("distance",0);
+                distance_text.setText( new DecimalFormat("#.##").format(val)+"KM  ");
+            }
             EventBus.getDefault().removeStickyEvent(messageEvent);
         }
     }
@@ -348,6 +389,7 @@ public class FragmentSelectedImage extends Fragment {
                         fts.commit();
                     }
                      Prefs.putString("watermark","");
+                    Prefs.putDouble("distance",0);
                      deleteBackupFromImage();
                     AppUtils.deleteBackupFromImage_watermark();
                 }

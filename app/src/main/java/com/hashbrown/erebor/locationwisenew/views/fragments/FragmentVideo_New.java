@@ -77,17 +77,29 @@ public class FragmentVideo_New extends Fragment implements OnTrimVideoListener{
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setCancelable(false);
         mProgressDialog.setMessage("Trimming...");
-
+        int timeInMillisec=0;
 
            if (mVideoTrimmer != null) {
                File file=new File(path);
-               MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-             //use one of overloaded setDataSource() functions to set your data source
-               retriever.setDataSource(getActivity(), Uri.fromFile(file));
-               String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-               int timeInMillisec = Integer.parseInt(time );
+                if(file!=null)
+                {
+                    try
+                    {
+                        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                        //use one of overloaded setDataSource() functions to set your data source
+                        retriever.setDataSource(getActivity(), Uri.fromFile(file));
+                        String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                        timeInMillisec = Integer.parseInt(time );
+                        retriever.release();
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
 
-               retriever.release();
+
+                }
+
                mVideoTrimmer.setOnTrimVideoListener(this);
          //   mVideoTrimmer.setOnK4LVideoListener(this);
             mVideoTrimmer.setDestinationPath("/sdcard/LocationWise/tmploc/");

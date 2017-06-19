@@ -59,6 +59,7 @@ public class Activity_ChangeLocation extends FragmentActivity implements OnMapRe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__change_location);
         ButterKnife.bind(this);
+        current=new LatLng(Prefs.getDouble("lat",0),Prefs.getDouble("long",0));
         TypefaceHelper.getInstance().setTypeface(textview,getString(R.string.book));
         TypefaceHelper.getInstance().setTypeface(search,getString(R.string.book));
 
@@ -84,14 +85,16 @@ public class Activity_ChangeLocation extends FragmentActivity implements OnMapRe
 @OnClick(R.id.back)
 void onback()
 {
-
+    Prefs.putDouble("distance",distance(Prefs.getDouble("lat",0),Prefs.getDouble("long",0),Prefs.getDouble("latMap",0),Prefs.getDouble("longMap",0)));
     finish();
 }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Prefs.putDouble("distance",distance(Prefs.getDouble("lat",0),Prefs.getDouble("long",0),Prefs.getDouble("latMap",0),Prefs.getDouble("longMap",0)));
         EventBus.getDefault().postSticky(new MessageEvent("latlong_edit"));
+
 
     }
 
@@ -232,6 +235,25 @@ void onback()
 
         return p1;
     }
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        return (dist);
+    }
 
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
+    }
 
 }

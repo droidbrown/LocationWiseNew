@@ -119,6 +119,7 @@ public class FragmentVideo extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //path and settting orientation
         path = this.getArguments().getString("path");
@@ -149,7 +150,6 @@ public class FragmentVideo extends Fragment {
 
        // ((Activity_HomeScreen)getActivity()).hideStatusBar();
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
