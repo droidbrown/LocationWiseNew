@@ -18,22 +18,47 @@
 
         </android.support.v4.view.ViewPager>
 
-        <ImageView
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:elevation="5dp"
+                android:layout_gravity="start|top"
+                android:padding="@dimen/padding_5dp"
+                android:visibility="gone"
+                android:layout_marginLeft="@dimen/margin_10_dp"
+                android:gravity="center"
+                android:drawableLeft="@drawable/distance"
+                android:id="@+id/distance_text"
+                android:layout_alignParentLeft="true"
+                android:textColor="@color/white"
+                android:text="122 km"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                />
+            <ImageView
+                android:layout_below="@+id/distance_text"
+                android:id="@+id/cross"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_gravity="start|top"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/ic_cross_icon" />
+            <ImageView
+                android:visibility="gone"
+                android:src="@drawable/ic_action_multiple"
+                android:id="@+id/watermark_image"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="?attr/selectableItemBackground"
+                />
 
-            android:id="@+id/cross"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_gravity="start|top"
-            android:background="?attr/selectableItemBackground"
-            android:src="@drawable/ic_cross_icon" />
 
-        <ImageView
-            android:id="@+id/watermark_image"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="end|top"
-            android:background="?attr/selectableItemBackground"
-             />
+
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/back"
@@ -82,21 +107,20 @@
                 android:layout_alignParentBottom="true"
                 android:orientation="vertical">
 
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/switch1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@+id/save"
-                    android:layout_gravity="end|bottom"
-                    android:layout_marginRight="@dimen/margin_10_dp"
-                    android:drawablePadding="@dimen/padding_5dp"
-                    android:shadowColor="@color/appcolor"
 
-                    android:text="Layer"
-                    android:textColor="@color/white"
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/switch1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="end|bottom"
+                        android:layout_marginRight="@dimen/margin_10_dp"
+                        android:drawablePadding="@dimen/padding_5dp"
+                        android:shadowColor="@color/appcolor"
+                        android:text="Layer"
+                        android:textColor="@color/white"
+                        android:theme="@style/Color1SwitchStyle" />
 
-                    android:theme="@style/Color1SwitchStyle" />
 
                 <TextView
                     android:id="@+id/text"
