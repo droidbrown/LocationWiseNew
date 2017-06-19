@@ -3,6 +3,9 @@ package com.hashbrown.erebor.locationwisenew.views.fragments;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
 import android.location.Address;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -40,6 +43,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,6 +95,8 @@ public class FragmentMultipleSelectedImages extends Fragment {
     db_locationwise db_locationwise;
     ProgressDialog pd;
     int item, pos;
+    @BindView(R.id.distance_text)
+    TextView distance_text;
 
     public static FragmentMultipleSelectedImages newInstance() {
         
@@ -114,12 +120,12 @@ public class FragmentMultipleSelectedImages extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+
         View v = inflater.inflate(R.layout.fragment_multiple_selected_images, container, false);
         ButterKnife.bind(this, v);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        getActivity().getWindow().addFlags(
-                WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         //database
         db_locationwise = new db_locationwise(getActivity());
 
@@ -149,11 +155,17 @@ public class FragmentMultipleSelectedImages extends Fragment {
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    text.setBackgroundColor(AppUtils.getColor(getActivity(), R.color.appcolor));
+                if(isChecked)
+                {
+                    text.setBackgroundColor(AppUtils.getColor(getActivity(),R.color.appcolor));
 
-                } else {
-                    text.setBackgroundColor(AppUtils.getColor(getActivity(), R.color.appcolor_transparent));
+
+                }
+                else
+                {
+                    text.setBackgroundColor(AppUtils.getColor(getActivity(),R.color.appcolor_transparent));
+
+
 
                 }
             }
@@ -508,8 +520,37 @@ public class FragmentMultipleSelectedImages extends Fragment {
             addresses = getLocationData(getActivity(), latitude, longitude);
             setAddress();
 
+
+            if(Prefs.getString("watermark","")!="")
+            {
+                watermark.setVisibility(View.VISIBLE);
+                AppUtils.loadImage(watermark,Prefs.getString("watermark",""),getActivity());
+
+            }
+            else
+            {
+                watermark.setVisibility(View.GONE);
+            }
+            if(Prefs.getDouble("distance",0)!=0)
+            {
+                distance_text.setVisibility(View.VISIBLE);
+
+
+//                //color for distance text
+//                int[] color = {AppUtils.getColor(getActivity(),R.color.white),Color.DKGRAY};
+//                float[] position = {0, 1};
+//                Shader.TileMode tile_mode = Shader.TileMode.REPEAT;
+//                LinearGradient lin_grad = new LinearGradient(0, 0, 0, 35,color,position, tile_mode);
+//                Shader shader_gradient = lin_grad;
+//                distance_text.getPaint().setShader(shader_gradient);
+
+                //value
+                double val=Prefs.getDouble("distance",0);
+                distance_text.setText( new DecimalFormat("#.##").format(val)+"KM  ");
+            }
             EventBus.getDefault().removeStickyEvent(messageEvent);
         }
+
     }
 
     private void deleteBackupFromImage() {
