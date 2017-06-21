@@ -268,7 +268,7 @@ public class Activity_SavedImages extends AppCompatActivity implements OnSavedCl
                         return false;
                     }
                 })
-                .crossFade(1000).dontAnimate()
+                .crossFade(500).dontAnimate()
 
                 .into(expandedImageView);
 
