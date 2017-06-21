@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "927118641596",
+    "firebase_url": "https://locationwise-cc579.firebaseio.com",
+    "project_id": "locationwise-cc579",
+    "storage_bucket": "locationwise-cc579.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:927118641596:android:d78cc362feb4416e",
+        "android_client_info": {
+          "package_name": "com.hashbrown.erebor.locationwisenew"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "927118641596-4eehfdvkg885epa3fjf0stj5o1vbsv1r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0VM0APdnJEGcgqQSXW4GLoaMKJIRw9jk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

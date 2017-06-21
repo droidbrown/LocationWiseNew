@@ -125,14 +125,14 @@ public class FragmentMultipleClickImagesNew extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        //getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 
         View v = inflater.inflate(R.layout.fragmnet_multiple_click_images_new, container, false);
         ButterKnife.bind(this, v);
-//        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-//        getActivity().getWindow().addFlags(
-//                WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-//        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        getActivity().getWindow().addFlags(
+                WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         assert textureView != null;
         textureView.setSurfaceTextureListener(textureListener);
         // count.setText(String.valueOf(i));

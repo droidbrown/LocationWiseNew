@@ -124,6 +124,7 @@ public class FragmentSelectedImage extends Fragment {
         paths = this.getArguments().getStringArrayList("paths");
         pd=new ProgressDialog(getActivity());
         pd.setMessage("Saving Image...");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         getActivity().getWindow().addFlags(
                 WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
         getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);

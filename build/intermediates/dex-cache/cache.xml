@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/bc25c491b6c564e34daaa8113fe7304c9bb0c762/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0ffbd024a5fd5efda6714beeaa97314b43563f1c">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_985b94bc28f379319ac8f00a5e57fe5062bd6105/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/f7cc67f43dad72b35eb61c15c16d0ac2346acbbf/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="30854fe0b2a6e495a821d8f41f52c0a1d18d8d2a">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_ec2023cbc5dd16f3c01940da41f4c4bbe2b3f0f2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/f92b290ab217f1a0a6d0460637b90648e567322e/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d410043f93e71bb0179ba86b85726dd080f14b79">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_38f60eb4c0a9202b54741c5c0b909e1c4ff4417d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/96127a8be808e7f36a1da3b7d8ea04de52cdeb81/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6688016b1c2ab0daad89bb59ca9b7acbd1c80412">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_6da332d8feb8fd81463fcc4b0dada50f9d3227f3/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/eeb01ec2e20a8714bd079f6e83031528c74c97b2/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a00d7f8576a10b66449fbe4ac16f8de2fa4d683f">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_51aa07ec9033b7c8a663c0a6a869cd5942de7adc/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/c173079c2c716ae9dcbe171f4bd83f880550e29b/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a611d7a00671ec4eb3050a21425fae955a38eb8a">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_d2db11c795c9553503736e07221349c4fdf2e03b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/87c64fcd6bc3914fa3883cb07ce026423ac44a46/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0ce1b9865e1e9baf2c9e03b4953ef2531db32d53">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_e67b71e38456f7138829852152dcef9f41559128/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/db8e75159dafb983a0d1b681b9f90c1985366670/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6bade648cc46af0ffc636586806c60dba1b7fdf8">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_5ae3164fafd5c948b7c95af7a4303c1665e78e4d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/17660abdbd6b7f0f3d87f66f081240d1c5bfbf95/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="f351ee2e10aaf23a13b0fcd19788683d7dce6192">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_47c7a491385cb80e361f186996b0fdced4d1e129/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/deac304d0cfcd9adf4e0af1e4a3249f710c29f4b/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="5af721e99ea8e51ab4c68975048641f01aca77b2">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_96f527e8093a04c441a820172f75be85f0fceb14/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/7f084f0b4d5ba319375e1e90ef43d9ebad6cac69/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a6daff13bf4ff813ad6686440c9c116e3bbd7630">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_24f5faefc39df8d07c8d80969c98e44470a3d8fb/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/9d263ae12afc3112717d688c0154d830154a723a/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="30704152908c78f80b1fa72d3815118d102a5f07">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_8cbc92d38665f63eb4c53c10ea81024a09f1f24b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/00743a4a3da8e0b924b45ff21bd2ea2d58817e56/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2484ee9a66188155c9c792ff279d4a34c8e1d22e">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_89542b488534f4da0e39fe1afb582dc2eb67a928/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/exploded-aar/life.knowledge4/k4l-video-trimmer/1.1.3-SNAPSHOT/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="136a9b4690de576c0c0014567fffdbe91bf77037">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/life.knowledge4-k4l-video-trimmer-1.1.3-SNAPSHOT_45ff9438dd16181741e29e0c09eb6247ed397a26/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/316e7c1b8d0f4eba4dadb1086e944cd9e2216006/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="700b670ed3f9cf4b240081993c6004817866985a">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_b6836658e0d19c976242ebae5724ca94a47764cf/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/179e3b6882b7dd99415dbf311f9fd42f14e80e4b/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="aba37a3eec04e174dc59f00cf4bd7992061d847a">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_51a2b3e0a974a60eca1bf634901e969133fce458/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/1c12878667fa67d6f0d7db1015bbda8df560dcb8/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="5687d5d0a5cc1113f84a0477d8fdd3b91222d26e">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_06dd3383ad061acbedfed7b00914fe3261da0a5c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/ab55987cc75c81929fd3c4446f9077f6a3e41f5d/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a5f50e080b426327fe1851f6f7b5f836bff6ac9f">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_43f6a692176bf5d5654c604f7ae24ccf666b250b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/cd48f7792f6d96bd15430c58cc35d641f11338b3/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="022615f683d7cdff31a236e7a31e1048b51196eb">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_0fe0bf49d51ac94f49a6746804f184b6730e9de8/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/ab12f8db57cb200741b8578729af7ff669ee177a/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="432ae8736f68442ef8d6e5c43631081aaa298a34">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_6759a29c35ae0f2a0fd99a973510ecb0927f5961/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/8692e616f97d5ca175c9908ab8f46ac73c3749b0/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="eaac8b02a2373e238cab6fc514e4667204b64191">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_948b2d5dc0346cdce109571fb76fe680a8a6beda/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/2df8d85261a99ffe1b458cb2120b47be87bddfc0/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d61d03a79b7aa9cd89ab27e532e574ebc09f1bcb">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_00357371ac8ee3d3fb04538441ec199e58ce22b5/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/a0dddd9b18538ad65ef4da7a80760378a36c8bdb/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2018b324dbe57d9a1304a0b6a97ece59de258da6">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_16c24abd1dd964f974cd526158de9a85368d2a52/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/8f29009f8b6faca57167e5156a2157dceac3915a/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6c098516db3cf935b4a45dc4dfa95cf71d751961">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_5506dd5a9da49ab1c7c68b33ade9959345d0216b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/bcffae76d21a82f6ffa411ce42d7cd07b2847e17/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6dfa77c356a9a8c13ad61253ed95ed3a746527e6">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_c074cffdb4397a55938798f44d47ae1e1d132317/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/f373ce68f7ac0e7811b49c00a26775117204228e/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2306e0665b3c407099437d9332e8528c2bfd5f99">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_df86ae38aeed82609dbd4359184e68a9de515af7/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/f2ba9e1df1c59efb4b9b17a3d573c413b2599346/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a67e5fbb2dacbe75c0a942e9dfec7a49803b941e">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_f4f1a54f193d10747d93ecb331d7fe1202fc9b48/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/28156bbfbe551f29205abf5f7547c810b936f989/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2299e7e6e579fa158fc1135b9e62f5b56b6b0aa8">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_b9ed995be00ef46b3354608bf4076d3fc427630e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/84cdb3c68863dd8bf1b327c39f9f2313bb01080d/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="5f43d6c042ee8eb48fa7606da4d1034d472a43cd">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_7ee8fd6a7e4b9145fe7bc0a63e06906867974538/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/a71f9558668bd5267c9b6806aefa2200d19ac278/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e72c498ef3e345135b6bfdf7fc83c6b905228ade">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_ec4702930c3792f78e4acd18ffc9be0c8e1cb498/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/e04de82ba92654a7de2a343d523c02e641c2271b/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="89e585298b910ee100d0f0f1e7f65520aab37931">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_51b13d61e1c7cc7591fac5e043a923a888e191fd/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/5c90828f65561906a0edc87160b024de6b36da48/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="da7ddb1b984e766c503ade0bc7e19001f56691ca">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_575d41834944b88a59916e5327fba939292cd0a6/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/36595393eb0c2f9c82582877d8660a8ea40de4fb/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="f58a75f1d77aea54d4a3c6bad03fa09df438285e">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_59dbbf93d32e7462964c3e5b8c3f3727bf36dbfb/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/f1d2d825dff1b01f7b0e74ad5c9cd36af367e2b1/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d68bbf92de9721b02a31a3833abfdc90144c7e39">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_75f2c30f9e4bcd49380de4fc29ac30a7d33bf58b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/8cb82b74790bc4afff3d10a1cece17b6cc4522a5/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ef65e4780d67d06abddd6e2d15dd4e0519ad8d8a">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_d9a96fd0fffc21f0a543520c01e81567ede8b268/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/7f80751e177a400297ce3680ccd5db342cd06a25/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="972004dcec5aeb1d9f4c06a6d90e9b5b674b9aa3">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_122f137193196378a30cabc792f59e558a9721bc/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/66e9ee5488331e06ef8e013d838f5aae7525d762/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="8723f4a84a0293f5e9ee76193e6bfec47137f048">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_699d37d2ec710f3fa736a80f3e597afd231af4e2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/0dbc57e70d3ed1a0f6f8138f9dd37093e0da284e/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e700cbcd6de81819f051434ef97c65e1390bf2d9">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_97c6eebe3e6c4742008e97b7a8b9aefa1f86cbd4/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/5c5587d3464cbf9c23976a9456f26bd6bc9f68fc/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="09190a1dee39d994bd6c151b2c9793d01db72447">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_796d8623f01739c2fc1f3868d797f4f78c7f691c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/cf1aae25c8dc8c0690fb1b0a92c9a12354104f28/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="fc6c0dae1d2dbb08ba3da08479ef40b501af1485">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_32c53886665043c96a70f062b7036e786ab89304/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/d7d9f7eb11eb24f670f65a2bcdec81fb52bb7e89/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="472812641483188b3121f3294d7da47df3c14d33">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_6a4a022a397193168c7754d83ecd9d49240b0241/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/6543deaec3d061b6658a5d52285a9a26dc11a0dc/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0e39662b49ef66950c0941aa5fd4c49346a7c341">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_23913bc9666cab7f8b11125f9182c562dc1aebb4/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/f15a416c34381fa9d76d79e3b76e1f2a1a2685f9/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="5d08eea1d3853927600d2507c7ca47a31c3df5d0">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_bca06a269d0c9cad156e6fbd2fd2b3b2b6ee2f9e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/001195a39e430e2f36b5232b38f118089b2ac7e2/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="20051ea387377125db14d6c0966662019f0a897c">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_93dc6bac98a3deba92aad6b18dafd79bcfc8aabb/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/6ffc066f499402535f4efb3c54fa471448f1f1c5/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="98c1221c29c1a146edc6be342039cc242f9773c5">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_2de95c038e454f18a25b9ab8909ca6c8df8b0d92/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/a45f9295566a9fa314497290f684ede24332763d/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a1dc8abf7fd09c2c993c4f55eb85f477f6ef76f0">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_47884e3c0e37251dff17e034850980710a7d5ac8/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/13bf074fecbdb18f5f19a61a394ea01006d8a63d/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b985bd4eb1abd0e7e1f49c9cdf80a0d3563bad2a">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_7996a3a5f453fe228c2e5ca4c15856dd3794ae39/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/c3731def785fb70d83d07eb0a4a281f804a9db3b/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a1d71d46e9b2d160e82565bb55f67e0bac1aee3e">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_4dfb57427d5743ee3990f40d54413f8553cc2f32/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/fdb83807e5ae48ee972325db72fbc9a8dbb349c1/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="af26875652e085cd14713ff655bc3aa07960d459">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_718f388fe5b0b013748ebc4a4f048008e9c9119d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/6a42505d2d1d5102dfca4482a9226898915a7d21/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d74bfb5306aee8dbfa746b48842f87c01c64f6ac">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_2f5ac1372a63da374f5b95197d37d022e71e7425/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/8655cf79765c010eb0e874e6a3be4ef521889fee/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c7b0c1662f1e2949e3635c2461a889cf9bd19c52">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_6bdaf404c9c68d14cd7588b9f2ecd45bf32cec0f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Erebor/.android/build-cache/3453fba3eb63738a4eb7c84fda536a6dcfc71d77/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="9e5e6d0c253cc142bd6a586b3fa0bc9bc9024a7d">
+        <dex dex="/Users/Erebor/AndroidStudioProjects/LocationWiseNew/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_23cce9641556cf817d97da7745ce6410d6796eb6/classes.dex" />
+    </item>
+
+</items>
