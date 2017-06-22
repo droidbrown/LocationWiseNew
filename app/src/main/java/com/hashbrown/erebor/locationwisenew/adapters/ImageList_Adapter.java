@@ -12,13 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.drivemode.android.typeface.TypefaceHelper;
-import com.etsy.android.grid.util.DynamicHeightImageView;
 import com.hashbrown.erebor.locationwisenew.R;
 
 import com.hashbrown.erebor.locationwisenew.database.db_locationwise;
 import com.hashbrown.erebor.locationwisenew.listeners.OnSavedClick;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
+import com.hashbrown.erebor.locationwisenew.utils.AppUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -62,23 +60,8 @@ public class ImageList_Adapter extends RecyclerView.Adapter<ImageList_Adapter.Vi
 
         TypefaceHelper.getInstance().setTypeface(holder.address,context.getString(R.string.light));
         TypefaceHelper.getInstance().setTypeface(holder.tap,context.getString(R.string.book));
-        Picasso.with(context)
-                .load(Uri.fromFile(new File(arrayList.get(position))))
-                .fit()
-                .centerInside()
-                .into(holder.saved_image, new Callback() {
-                    @Override
-                    public void onSuccess()
-                    {
-                        //Log.i("PREVIEW", "Picasso Success Loading Thumbnail - " + arrayList.get(position));
-                    }
 
-                    @Override
-                    public void onError()
-                    {
-                      //  Log.i("PREVIEW", "Picasso Error Loading Thumbnail Small - " + arrayList.get(position));
-                    }
-                });
+        AppUtils.loadImage(holder.saved_image,arrayList.get(position),context);
 
                String loc=arrayList.get(position).substring(arrayList.get(position).lastIndexOf("/") + 1).trim();
              //  System.out.println("loc   "+loc);

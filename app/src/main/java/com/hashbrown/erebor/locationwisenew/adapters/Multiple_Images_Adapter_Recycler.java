@@ -17,8 +17,8 @@ import com.drivemode.android.typeface.TypefaceHelper;
 import com.hashbrown.erebor.locationwisenew.R;
 import com.hashbrown.erebor.locationwisenew.database.db_locationwise;
 import com.hashbrown.erebor.locationwisenew.listeners.OnSavedClick;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
+import com.hashbrown.erebor.locationwisenew.utils.AppUtils;
+
 
 import java.io.File;
 import java.util.ArrayList;
@@ -58,23 +58,8 @@ public class Multiple_Images_Adapter_Recycler extends RecyclerView.Adapter<Multi
     public void onBindViewHolder(final Multiple_Images_Adapter_Recycler.ViewHolder holder, final int position)
     {
 
-        Picasso.with(context)
-                .load(Uri.fromFile(new File(arrayList.get(position))))
-                .fit()
-                .centerInside()
-                .into(holder.selected_image, new Callback() {
-                    @Override
-                    public void onSuccess()
-                    {
-                        //Log.i("PREVIEW", "Picasso Success Loading Thumbnail - " + arrayList.get(position));
-                    }
 
-                    @Override
-                    public void onError()
-                    {
-                        //  Log.i("PREVIEW", "Picasso Error Loading Thumbnail Small - " + arrayList.get(position));
-                    }
-                });
+        AppUtils.loadImage(holder.selected_image,arrayList.get(position),context);
 
     }
 

@@ -15,8 +15,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.pixplicity.easyprefs.library.Prefs;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
+
 
 import java.io.File;
 import java.io.IOException;

@@ -135,6 +135,11 @@ public class Activity_SavedImages extends AppCompatActivity implements OnSavedCl
                 noimage.setVisibility(View.VISIBLE);
             }
         }
+        else
+        {
+            image_list.setVisibility(View.INVISIBLE);
+            noimage.setVisibility(View.VISIBLE);
+        }
     }
 
 

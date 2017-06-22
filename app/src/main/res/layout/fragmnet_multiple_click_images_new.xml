@@ -15,7 +15,7 @@
     <TextureView
         android:id="@+id/texture"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@+id/btn_takepicture"
         android:layout_alignParentTop="true"/>
     <ImageView
@@ -24,7 +24,7 @@
     android:layout_gravity="end|top"
     android:id="@+id/done"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="60dp"
 
     />
     <ImageView
